@@ -1,0 +1,18 @@
+$cyan-color:rgb(100,228,228);
+$container-width:1196px;
+$grey-color:rgb(126,126,126);
+$heading-font-size:20px;
+$icon-block-min-width:275px;
+$icon-list-color:rgb(255,255,255);
+$orange-color:rgb(237,178,98);
+$pink-color:rgb(232,109,112);
+$primary-header-color:rgb(245,245,245);
+
+%links-nounderline {
+  text-decoration: none;
+}
+
+%display-flex {
+  display: flex;
+  display: -webkit-flex;
+}

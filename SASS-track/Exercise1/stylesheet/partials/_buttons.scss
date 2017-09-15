@@ -1,0 +1,11 @@
+.btn-download {
+  @extend %links-nounderline;
+  background-color: blue;
+  color: white;
+  padding: 20px 30px;
+
+  &:hover {
+    background-color:white;
+    color:blue;
+  }
+}

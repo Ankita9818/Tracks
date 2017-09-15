@@ -1,0 +1,16 @@
+.header {
+  background-color: $primary-header-color;
+
+  .container {
+    @extend %display-flex;
+    align-items: baseline;
+    justify-content: space-between;
+  }
+
+  .logo {
+    @extend %links-nounderline;
+    color: black;
+    font-size: $heading-font-size;
+    font-weight: bold;
+  }
+}

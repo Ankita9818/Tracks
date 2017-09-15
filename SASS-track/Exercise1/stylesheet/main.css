@@ -1,0 +1,96 @@
+body {
+  font-family: 'Rubik', sans-serif;
+  margin: 0;
+  padding: 0; }
+
+* {
+  box-sizing: border-box; }
+
+.btn-download, .header .logo, .header .secondary-heading, .links {
+  text-decoration: none; }
+
+.header .container, .listing-area, .list {
+  display: flex;
+  display: -webkit-flex; }
+
+.container {
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 1196px;
+  padding: 20px; }
+
+.btn-download {
+  background-color: blue;
+  color: white;
+  padding: 20px 30px; }
+  .btn-download:hover {
+    background-color: white;
+    color: blue; }
+
+.header {
+  background-color: whitesmoke; }
+  .header .container {
+    align-items: baseline;
+    justify-content: space-between; }
+  .header .logo, .header .secondary-heading {
+    color: black;
+    font-size: 20px;
+    font-weight: bold; }
+
+.navigation {
+  font-size: 16px; }
+
+.links {
+  color: #e49c3d;
+  padding: 15px; }
+  .links:hover {
+    text-decoration: underline; }
+
+.footer {
+  background-color: whitesmoke;
+  padding: 40px 0;
+  position: relative;
+  text-align: center; }
+
+/* home page section */
+.section1 {
+  background-color: black;
+  color: white;
+  padding: 60px 0;
+  text-align: center; }
+  .section1 .heading {
+    font-size: 36px;
+    font-weight: 300;
+    margin-bottom: 60px;
+    margin-top: 0; }
+
+/* Icon Display section */
+.section2 {
+  background-color: #edb262; }
+  .section2 .container {
+    padding: 30px 20px; }
+
+.listing-area {
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin-left: -5px;
+  margin-right: -5px; }
+
+.list {
+  align-items: center;
+  background-color: white;
+  flex-grow: 1;
+  margin: 5px;
+  padding: 30px;
+  width: 275px; }
+  .list .icons {
+    height: 20px; }
+  .list .icon-name {
+    color: #7e7e7e;
+    margin-left: 15px; }
+
+.section3 {
+  background-color: #64e4e4; }
+
+.section4 {
+  background-color: #e86d70; }

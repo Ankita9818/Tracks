@@ -1,0 +1,85 @@
+body{
+  font-family: 'Rubik', sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+@import "partials/base";
+@import "partials/grids";
+@import "partials/buttons";
+@import "partials/header";
+@import "partials/navigation";
+@import "partials/footer";
+
+/* home page section */
+.section1 {
+  background-color: black;
+  color: white;
+  padding: 60px 0;
+  text-align: center;
+
+  .heading {
+    font-size: 36px;
+    font-weight: 300;
+    margin-bottom: 60px;
+    margin-top: 0;
+  }
+
+}
+
+/* Icon Display section */
+.section2 {
+  background-color: $orange-color;
+  .container {
+    padding: 30px 20px;
+  }
+}
+
+.secondary-heading {
+  @extend .logo;
+}
+
+.listing-area {
+  @extend %display-flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin-left: -5px;
+  margin-right: -5px;
+}
+
+.list {
+  @extend %display-flex;
+  align-items: center;
+  background-color: $icon-list-color;
+  flex-grow: 1;
+  margin: 5px;
+  padding: 30px;
+  width: $icon-block-min-width;
+
+  .icons {
+    height: 20px;
+  }
+
+  .icon-name {
+    color: $grey-color;
+    margin-left: 15px;
+  }
+}
+
+.section3 {
+  background-color: $cyan-color;
+}
+
+.section4 {
+  background-color: $pink-color;
+}
+
+
+
+
+
+

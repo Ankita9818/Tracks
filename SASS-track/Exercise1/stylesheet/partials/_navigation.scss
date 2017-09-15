@@ -1,0 +1,13 @@
+.navigation {
+  font-size: 16px;
+}
+
+.links {
+  @extend %links-nounderline;
+  color:rgb(228,156,61);
+  padding: 15px;
+
+  &:hover {
+    text-decoration:underline;
+  }
+}
