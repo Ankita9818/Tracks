@@ -94,3 +94,10 @@ body {
 
 .section4 {
   background-color: #e86d70; }
+
+@media (max-width: 500px) {
+  .links {
+    padding-left: 2px;
+    padding-right: 2px; } }
+
+/*# sourceMappingURL=main.css.map */

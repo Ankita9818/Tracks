@@ -78,6 +78,13 @@ body{
   background-color: $pink-color;
 }
 
+@media (max-width: 500px) {
+  .links {
+    padding-left: 2px;
+    padding-right: 2px;
+  }
+}
+
 
 
 
