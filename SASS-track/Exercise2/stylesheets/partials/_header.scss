@@ -1,0 +1,15 @@
+.social-header {
+  font-size: $social-header-font-size;
+  padding: 25px;
+}
+
+.contact-icon {
+  height: ($icon-height / 2);
+  margin-right: 10px;
+  width: $icon-width - 6px;
+}
+
+.social-icon {
+  @include link-colors(transparent,$navigation-link-color,transparent,$primary-brand-color);
+  margin-right: 15px;
+}

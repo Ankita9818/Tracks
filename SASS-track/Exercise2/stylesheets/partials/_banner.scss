@@ -1,0 +1,29 @@
+.banner {
+  background: url($url-banner-image) top right no-repeat,  url($url-banner-bg) center no-repeat;
+  background-size:auto 100%,100% 100%;
+  height: calc(100vh - 140px);
+  min-height:600px;
+
+  .container {
+    @extend %display-flex;
+    align-items: center;
+    color: #336666;
+    height: 100%;
+  }
+}
+
+.primary-headline {
+  color: $primary-brand-color;
+  font-size: 54px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.secondary-heading {
+  color: #333366;
+  font-weight:bold;
+}
+
+.margin-top-60 {
+  @include margin-fun(top,60px);
+}

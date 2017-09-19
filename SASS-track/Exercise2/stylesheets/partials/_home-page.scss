@@ -1,0 +1,181 @@
+.section2 {
+  background-color: $home-bg-color;
+  padding: 120px 0;
+}
+
+.sec-brand-color {
+  color: $sec-brand-color;
+}
+
+.color-any {
+  @include color-any(#495662);
+}
+
+.product-list{
+  @extend %bg-white;
+  cursor: pointer;
+  min-height:365px;
+  padding: 30px;
+  @include margin-fun(top,20px);
+  @include margin-fun(bottom,20px);
+  transition: all 0.5s;
+
+  .secondary-heading {
+    @include margin-fun(bottom,30px);
+    @include margin-fun(top,20px);
+  }
+
+  .product-image {
+    max-width: 100%;
+    max-height: 100%;
+  }
+
+  &:hover {
+    @include box-shadow(0 0 10px 5px $shadow-color);
+
+    .product-image {
+      height: 90px;
+      display: inline;
+    }
+
+    .secondary-heading {
+      color: $primary-brand-color;
+    }
+
+    h4.brand-color {
+      display: none;
+    }
+
+    .hover-view {
+      display: block;
+
+      .circle {
+        height: 13px;
+        width:13px;
+        margin: 30px 0;
+      }
+
+      @include bg-colored(red);
+      @include bg-colored(black);
+      @include bg-colored(cyan);
+      @include bg-colored(green);
+
+      .center-block {
+        border-bottom: 1px solid #f2f4f7;
+      }
+    }
+  }
+}
+
+.hover-view {
+  display: none;
+}
+
+.newarrivals {
+  margin-top: 65px;
+  margin-bottom: 65px;
+}
+
+.circle {
+  background-color: $primary-brand-color;
+  @include border-radius(50%);
+  display: inline-block;
+  height: 8px;
+  width:8px;
+}
+
+.separator {
+  @extend %bg-white;
+  padding-bottom: 25px;
+  padding-top: 25px;
+}
+
+.offer-banner {
+  @extend %display-flex;
+  justify-content: space-between;
+  margin: 120px 0;
+}
+
+.offer-box {
+  @extend %bg-white;
+  @extend %display-flex;
+  align-items: center;
+  flex-grow: 2;
+  justify-content: space-around;
+  margin: 15px;
+  padding: 10px;
+}
+
+.offer-box2 {
+  @extend .offer-box;
+  flex-direction: column;
+  flex:2 0 auto;
+  justify-content: center;
+
+  .color-any {
+    @include color-any(#b5b9bd);
+    letter-spacing: 5px;
+  }
+}
+
+.addtocart {
+  border-left:1px solid #f5f5f6;
+  padding-left: 30px;
+}
+
+.best-sales-area {
+  @include margin-fun(bottom,120px);
+  @include margin-fun(top,80px);
+}
+
+.best-sales-box {
+  @extend .offer-box;
+  cursor: pointer;
+  justify-content: space-between;
+  padding: 30px 20px;
+  margin:20px 0;
+  transition: all 0.5s;
+
+  .description {
+    border-left: 1px solid #e8ecf3;
+    padding-left: 20px;
+  }
+
+  &:hover {
+    @include box-shadow(0 0 10px 5px $shadow-color);
+
+    .rating {
+      display: none;
+    }
+
+    .hover-view {
+      display: initial;
+      vertical-align: text-bottom;
+    }
+
+  }
+}
+
+.rating {
+  @extend %display-flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.starbox {
+  color: #e8ecf3;
+}
+
+.news-letter {
+  @extend %display-flex;
+  @extend %bg-white;
+  align-items: center;
+  justify-content: space-between;
+  padding: 50px;
+
+  .color-any {
+    @include color-any(#7c8791);
+  }
+}
+
+

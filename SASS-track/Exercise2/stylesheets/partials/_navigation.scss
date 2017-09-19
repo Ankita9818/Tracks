@@ -1,0 +1,45 @@
+.links {
+  @include link-colors(transparent,$navigation-link-color,transparent,$primary-brand-color);
+}
+
+.top-navigation {
+  background-color: $navigation-background-color;
+  border-bottom:none;
+  padding: 40px 0;
+  margin-bottom:0;
+
+  .navbar-nav {
+
+    .links {
+      @extend .links;
+    }
+
+    .active {
+
+      .active-link {
+        @include link-colors($navigation-background-color,$primary-brand-color,transparent,$primary-brand-color);
+      }
+    }
+  }
+}
+
+.logo {
+  margin-right: $margin-brand;
+  padding:5px 15px;
+}
+
+.icons {
+  height: $icon-height;
+  width: $icon-width;
+  margin-right:10px;
+  display:inline-block;
+  vertical-align:text-top;
+}
+
+.cart-badge {
+  border-radius: 50%;
+  left:17px;
+  position: absolute;
+  top:0;
+}
+

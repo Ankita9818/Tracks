@@ -1,0 +1,26 @@
+$navigation-background-color:white;
+$margin-brand:80px;
+$primary-brand-color:#ff6600;
+$navigation-link-color:#333333;
+$icon-height:22px;
+$icon-width:24px;
+$social-header-font-size:12px;
+$url-banner-bg:"../images/banner-bg.png";
+$url-banner-image:"../images/banner.png";
+$home-bg-color:#f6f8f9;
+$sec-brand-color:#34404b;
+$google-font:"Raleway";
+$shadow-color:rgba(0,0,0,0.06);
+$tablet: "(min-width: 768px) and (max-width: 1023px)";
+$mobile: "(max-width: 767px)";
+@import "partials/mixins";
+
+%display-flex {
+  display:flex;
+  display:-webkit-flex;
+}
+
+%bg-white {
+  background-color: white;
+}
+

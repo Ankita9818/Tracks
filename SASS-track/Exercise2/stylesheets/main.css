@@ -1,0 +1,292 @@
+.banner .container, .offer-banner, .offer-box, .offer-box2, .best-sales-box, .rating, .news-letter {
+  display: flex;
+  display: -webkit-flex; }
+
+.product-list, .separator, .offer-box, .offer-box2, .best-sales-box, .news-letter {
+  background-color: white; }
+
+body {
+  font-family: "Raleway", sans-serif;
+  font-size: 16px; }
+
+.font-bold {
+  font-weight: bold; }
+
+.brand-color {
+  color: #ff6600 !important; }
+
+.font-16 {
+  font-size: 16px; }
+
+.font-14 {
+  font-size: 14px; }
+
+a.brand-color {
+  background-color: transparent;
+  color: #ff6600; }
+  a.brand-color:hover {
+    background-color: transparent;
+    color: #ff6600; }
+
+.reset-margin {
+  margin-bottom: 0; }
+
+.margin-30 {
+  margin-right: 30px;
+  margin-left: 30px; }
+
+.links, .top-navigation .navbar-nav .links {
+  background-color: transparent;
+  color: #333333; }
+  .links:hover, .top-navigation .navbar-nav .links:hover {
+    background-color: transparent;
+    color: #ff6600; }
+
+.top-navigation {
+  background-color: white;
+  border-bottom: none;
+  padding: 40px 0;
+  margin-bottom: 0; }
+  .top-navigation .navbar-nav .active .active-link {
+    background-color: white;
+    color: #ff6600; }
+    .top-navigation .navbar-nav .active .active-link:hover {
+      background-color: transparent;
+      color: #ff6600; }
+
+.logo {
+  margin-right: 80px;
+  padding: 5px 15px; }
+
+.icons {
+  height: 22px;
+  width: 24px;
+  margin-right: 10px;
+  display: inline-block;
+  vertical-align: text-top; }
+
+.cart-badge {
+  border-radius: 50%;
+  left: 17px;
+  position: absolute;
+  top: 0; }
+
+.social-header {
+  font-size: 12px;
+  padding: 25px; }
+
+.contact-icon {
+  height: 11px;
+  margin-right: 10px;
+  width: 18px; }
+
+.social-icon {
+  background-color: transparent;
+  color: #333333;
+  margin-right: 15px; }
+  .social-icon:hover {
+    background-color: transparent;
+    color: #ff6600; }
+
+.banner {
+  background: url("../images/banner.png") top right no-repeat, url("../images/banner-bg.png") center no-repeat;
+  background-size: auto 100%,100% 100%;
+  height: calc(100vh - 140px);
+  min-height: 600px; }
+  .banner .container {
+    align-items: center;
+    color: #336666;
+    height: 100%; }
+
+.primary-headline {
+  color: #ff6600;
+  font-size: 54px;
+  font-weight: 700;
+  text-transform: uppercase; }
+
+.secondary-heading {
+  color: #333366;
+  font-weight: bold; }
+
+.margin-top-60 {
+  margin-top: 60px; }
+
+.footer {
+  padding: 80px 0; }
+
+.footerlinks {
+  display: inline-block;
+  vertical-align: top;
+  width: 30%; }
+  .footerlinks li a {
+    background-color: transparent;
+    color: #34404b; }
+    .footerlinks li a:hover {
+      background-color: transparent;
+      color: #ff6600; }
+
+.btn-join-us {
+  background-color: #ff6600;
+  color: white;
+  display: inline-block;
+  padding: 15px; }
+
+.section2 {
+  background-color: #f6f8f9;
+  padding: 120px 0; }
+
+.sec-brand-color {
+  color: #34404b; }
+
+.color-any {
+  color: #495662; }
+
+.product-list {
+  cursor: pointer;
+  min-height: 365px;
+  padding: 30px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  transition: all 0.5s; }
+  .product-list .secondary-heading {
+    margin-bottom: 30px;
+    margin-top: 20px; }
+  .product-list .product-image {
+    max-width: 100%;
+    max-height: 100%; }
+  .product-list:hover {
+    -webkit-box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.06);
+    -moz-box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.06);
+    -ms-box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.06);
+    box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.06); }
+    .product-list:hover .product-image {
+      height: 90px;
+      display: inline; }
+    .product-list:hover .secondary-heading {
+      color: #ff6600; }
+    .product-list:hover h4.brand-color {
+      display: none; }
+    .product-list:hover .hover-view {
+      display: block; }
+      .product-list:hover .hover-view .circle {
+        height: 13px;
+        width: 13px;
+        margin: 30px 0; }
+      .product-list:hover .hover-view .circle.bg-red {
+        background-color: red; }
+      .product-list:hover .hover-view .circle.bg-black {
+        background-color: black; }
+      .product-list:hover .hover-view .circle.bg-cyan {
+        background-color: cyan; }
+      .product-list:hover .hover-view .circle.bg-green {
+        background-color: green; }
+      .product-list:hover .hover-view .center-block {
+        border-bottom: 1px solid #f2f4f7; }
+
+.hover-view {
+  display: none; }
+
+.newarrivals {
+  margin-top: 65px;
+  margin-bottom: 65px; }
+
+.circle {
+  background-color: #ff6600;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  -ms-border-radius: 50%;
+  border-radius: 50%;
+  display: inline-block;
+  height: 8px;
+  width: 8px; }
+
+.separator {
+  padding-bottom: 25px;
+  padding-top: 25px; }
+
+.offer-banner {
+  justify-content: space-between;
+  margin: 120px 0; }
+
+.offer-box, .offer-box2, .best-sales-box {
+  align-items: center;
+  flex-grow: 2;
+  justify-content: space-around;
+  margin: 15px;
+  padding: 10px; }
+
+.offer-box2 {
+  flex-direction: column;
+  flex: 2 0 auto;
+  justify-content: center; }
+  .offer-box2 .color-any {
+    color: #b5b9bd;
+    letter-spacing: 5px; }
+
+.addtocart {
+  border-left: 1px solid #f5f5f6;
+  padding-left: 30px; }
+
+.best-sales-area {
+  margin-bottom: 120px;
+  margin-top: 80px; }
+
+.best-sales-box {
+  cursor: pointer;
+  justify-content: space-between;
+  padding: 30px 20px;
+  margin: 20px 0;
+  transition: all 0.5s; }
+  .best-sales-box .description {
+    border-left: 1px solid #e8ecf3;
+    padding-left: 20px; }
+  .best-sales-box:hover {
+    -webkit-box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.06);
+    -moz-box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.06);
+    -ms-box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.06);
+    box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.06); }
+    .best-sales-box:hover .rating {
+      display: none; }
+    .best-sales-box:hover .hover-view {
+      display: initial;
+      vertical-align: text-bottom; }
+
+.rating {
+  align-items: center;
+  justify-content: space-between; }
+
+.starbox {
+  color: #e8ecf3; }
+
+.news-letter {
+  align-items: center;
+  justify-content: space-between;
+  padding: 50px; }
+  .news-letter .color-any {
+    color: #7c8791; }
+
+@media (max-width: 767px) {
+  .xs-text-center {
+    text-align: center;
+    margin-bottom: 10px;
+    width: 100%; }
+
+  .offer-banner, .news-letter {
+    flex-direction: column; }
+
+  .margin-xs-10 {
+    margin-bottom: 10px; }
+
+  .footerlinks {
+    font-size: 12px; } }
+@media (min-width: 768px) and (max-width: 1023px) {
+  .rating {
+    flex-direction: column; }
+
+  .logo {
+    margin-right: 0px;
+    padding-left: 5px;
+    padding-right: 5px; }
+
+  .navbar-nav .icons {
+    margin-right: 0px; } }

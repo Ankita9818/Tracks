@@ -1,0 +1,13 @@
+.footer {
+  padding: 80px 0;
+}
+
+.footerlinks {
+  display: inline-block;
+  vertical-align: top;
+  width: 30%;
+
+  li a{
+    @include link-colors(transparent,$sec-brand-color,transparent,$primary-brand-color);
+  }
+}

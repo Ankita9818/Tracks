@@ -1,0 +1,35 @@
+@import "partials/base";
+
+body {
+  font-family: '#{$google-font}', sans-serif;
+  font-size: 16px;
+}
+
+.font-bold {
+  font-weight:bold;
+}
+
+.brand-color {
+  color:$primary-brand-color !important;
+}
+
+.font-16 {
+  font-size: 16px;
+}
+
+.font-14 {
+  font-size: 14px;
+}
+
+a.brand-color {
+  @include link-colors(transparent,$primary-brand-color,transparent,$primary-brand-color);
+}
+
+.reset-margin {
+  margin-bottom:0;
+}
+
+.margin-30 {
+  margin-right: 30px;
+  margin-left: 30px;
+}
