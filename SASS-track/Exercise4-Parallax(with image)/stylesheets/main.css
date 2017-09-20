@@ -17,7 +17,12 @@ body {
   box-sizing: border-box; }
 
 .header {
-  padding: 20px 0; }
+  background-color: black;
+  left: 0;
+  padding: 20px 0;
+  position: fixed;
+  right: 0;
+  top: 0; }
   .header .container {
     text-align: center; }
 
@@ -79,7 +84,7 @@ body {
   background-size: cover;
   height: 100vh;
   min-height: 700px;
-  padding: 30px 0; }
+  padding: 80px 0; }
   .section1 .container, .section2 .container, .section4 .container, .section3 .container {
     align-items: center;
     display: flex;
@@ -134,5 +139,3 @@ body {
 
   .title {
     font-size: 32px; } }
-
-/*# sourceMappingURL=main.css.map */
