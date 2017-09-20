@@ -1,0 +1,56 @@
+.section1 {
+  background-image:url(../images/section1.png);
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  height:100vh;
+  display: flex;
+  min-height: 700px;
+
+  .container {
+    @extend %bg;
+    margin:auto;
+    position: relative;
+  }
+}
+
+.description {
+  display: inline-block;
+  width: 50%;
+
+  .details {
+    background-color:rgba(black,0.7);
+    font-size: 20px;
+    padding: 5px;
+  }
+
+  .title {
+    @extend .details;
+    font-size: 48px;
+  }
+}
+
+.section2 {
+  @extend .section1;
+  background-image:url(../images/section2.png);
+  .container {
+    background-position: left;
+  }
+}
+
+.section3 {
+  @extend .section1;
+  background-image:url(../images/section3.png);
+}
+.section4 {
+  @extend .section1;
+  background-image:url(../images/section4.png);
+  .container {
+    background-position: left;
+  }
+}
+
+.shift-right {
+  float: right;
+}

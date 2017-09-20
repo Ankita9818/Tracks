@@ -1,0 +1,23 @@
+@import "partials/grids";
+@import "partials/all";
+@import "partials/header";
+@import "partials/buttons";
+@import "partials/homepage";
+
+@media #{$tablet} , #{$mobile} {
+  .description {
+    text-align: center;
+    width: 100%;
+  }
+
+  @include position-center(4);
+  .btn-clickme {
+    position: relative;
+    left: 40%;
+  }
+
+  .shift-right {
+    float: none;
+  }
+}
+

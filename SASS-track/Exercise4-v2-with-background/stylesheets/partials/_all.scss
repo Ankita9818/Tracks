@@ -1,0 +1,20 @@
+@import "partials/base";
+@import "partials/mixins";
+
+body {
+  background-color: $bg-color;
+  color:$text-color;
+  font-family: $google-font, sans-serif;
+  margin:0;
+  padding:0;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+%bg {
+  background-image:url(../images/tree.png);
+  background-repeat: no-repeat;
+  background-position: right;
+}

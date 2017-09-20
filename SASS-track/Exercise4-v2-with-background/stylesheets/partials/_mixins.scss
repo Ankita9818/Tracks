@@ -1,0 +1,51 @@
+/*Mixin for link colors */
+@mixin link-colors($background-color , $foreground-color , $hover-background-color , $hover-foreground-color) {
+  background-color:$background-color;
+  color:$foreground-color;
+
+  &:hover {
+    background-color:$hover-background-color;
+    color:$hover-foreground-color;
+  }
+}
+
+@mixin border-radius($radius) {
+  -webkit-border-radius: $radius;
+  -moz-border-radius: $radius;
+  -ms-border-radius: $radius;
+  border-radius: $radius;
+}
+
+@mixin box-shadow($shadow) {
+  -webkit-box-shadow: $shadow;
+  -moz-box-shadow: $shadow;
+  -ms-box-shadow: $shadow;
+  box-shadow: $shadow;
+}
+
+$btn-bgs:#ff9900 , #02c7e6 , #8db737, #cc0000;
+@mixin bg-btn($btn-bgs) {
+  @for $i from 1 through length($btn-bgs) {
+    .bg-btn-#{$i} {
+      background-color:#{nth($btn-bgs, $i)};
+      border-color:#{nth($btn-borders, $i)};
+
+      &:hover {
+        background-color:#{nth($btn-bgs, $i)};
+        color: #{nth($btn-borders, $i)};
+      }
+    }
+  }
+}
+
+$btn-borders:#cc6600 , #0197b2, #719d18 , #a20303;
+
+@mixin position-center($no-of-sections){
+  @for $i from 1 through $no-of-sections {
+    .section#{$i} {
+      .container {
+        background-position: center;
+      }
+    }
+  }
+}
