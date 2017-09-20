@@ -1,0 +1,29 @@
+.header {
+  padding: 50px 40px;
+  position: fixed;
+  top:0;
+  text-align: right;
+  width: 100%;
+
+  .logo {
+    float: left;
+    margin-top: -10px;
+  }
+
+  .container {
+    width: 100%;
+  }
+
+  .btns {
+    @include box-shadow(0px 0px 5px 8px rgba($primary-color,0.2));
+  }
+}
+
+.navigation{
+
+  .navlinks {
+    @include link-colors(transparent,$navigation-color,transparent,$primary-color);
+    padding: 0 10px;
+    text-decoration: none;
+  }
+}

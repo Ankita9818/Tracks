@@ -1,0 +1,57 @@
+@import "partials/base";
+@import "partials/mixins";
+body {
+
+  color: white;
+  font: {
+    family: #{$google-font}, sans-serif;
+    size:$base-font-size;
+  }
+
+  margin:0;
+  padding:0;
+}
+
+* {
+  box-sizing:border-box;
+}
+
+.height-destination {
+  min-height: $height-destination;
+}
+
+.height-destination-middle {
+  background-size: 100% 100%;
+  min-height: ((2 * $height-destination) + 20px);
+
+  .description {
+    text-align: center;
+    width: 100%;
+    @extend %vertically-center;
+
+    h2 {
+      font-size: 50px;
+    }
+
+    .btns {
+      @include link-colors(transparent,white,transparent,$primary-color);
+      border:1px solid white;
+      font-size: 12px;
+      margin: 5px;
+      padding: 10px;
+
+      &:hover {
+        border-color: $primary-color;
+      }
+    }
+  }
+}
+
+.margin-gutter {
+  margin-bottom: -$gutter;
+  margin-top: -$gutter;
+}
+
+.color-brand {
+  color: $primary-color;
+}

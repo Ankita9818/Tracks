@@ -1,0 +1,18 @@
+.container {
+  margin-left: auto;
+  margin-right: auto;
+  width:$container-width;
+
+  &::after {
+    @extend .clearfix;
+  }
+}
+
+.clearfix {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+@include col-grid($no-of-columns);
+

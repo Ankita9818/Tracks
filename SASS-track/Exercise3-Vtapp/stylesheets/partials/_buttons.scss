@@ -1,0 +1,8 @@
+.btns {
+  text-decoration:none;
+  padding:10px 40px;
+
+  @include border-radius(50px);
+
+  @include link-colors($btn-bg-color,$primary-color,$primary-color,$btn-bg-color);
+}

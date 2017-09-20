@@ -1,0 +1,112 @@
+.banner {
+  background:lightblue url(../images/banner.png) center no-repeat;
+  background-size:cover;
+  height: 100vh;
+  min-height: 670px;
+  text-align: center;
+
+    .banner-logo {
+      max-width: 400px;
+    }
+
+    .container {
+      @extend %vertically-center;
+    }
+}
+
+.headline {
+  color:$primary-color;
+  font-weight: bold;
+  margin-bottom: $margin-min;
+  margin-top: $margin-min;
+  text-transform: uppercase;
+}
+/* Banner ends */
+
+/* Section starts */
+.section-heading {
+  color:$heading-color;
+  letter-spacing: 5px;
+  margin-bottom: $margin-min;
+  margin-top: $margin-min;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+@include destinations(7);
+
+.section3 {
+  background-color: #f9f9f9;
+  padding:1px 0 $margin-min 0;
+
+  .details {
+    @extend %display-flex;
+    align-items: baseline;
+    background-color: white;
+    color: $color-details;
+    justify-content: space-between;
+    padding: 10px 20px;
+  }
+}
+
+.hotels {
+  min-height: $height-hotel;
+  text-align: center;
+
+  .btns {
+    @include box-shadow(0 0 5px 5px rgba(0,0,0,0.1));
+  }
+
+  &:hover {
+    cursor: pointer;
+    @include box-shadow(0 0 5px 5px rgba(0,0,0,0.1));
+  }
+}
+
+.hotel-image {
+  max-width: 100%;
+}
+
+.description {
+  bottom: 0px;
+  left: 20px;
+  position: absolute;
+}
+
+.color-star {
+  color: $color-star;
+
+  .fa-star {
+
+    &:hover {
+      color:$color-details;
+    }
+  }
+}
+
+.no-of-days {
+  color: #d9dce3;
+  margin-top: -7px;
+}
+
+/* Carousel Section */
+.section4 {
+  background-image: url('../images/carousel-image.png');
+  min-height: 670px;
+  position: relative;
+  text-align: center;
+
+  .container {
+    @extend %vertically-center;
+    width: 50%;
+  }
+
+  .details {
+    line-height: 3em;
+  }
+}
+
+.carousel-header {
+  font-size: 68px;
+}
+

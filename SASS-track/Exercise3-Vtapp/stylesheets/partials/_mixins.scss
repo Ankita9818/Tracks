@@ -1,0 +1,51 @@
+/*Mixin for link colors */
+@mixin link-colors($background-color , $foreground-color , $hover-background-color , $hover-foreground-color) {
+  background-color:$background-color;
+  color:$foreground-color;
+
+  &:hover {
+    background-color:$hover-background-color;
+    color:$hover-foreground-color;
+  }
+}
+
+@mixin border-radius($radius) {
+  -webkit-border-radius: $radius;
+  -moz-border-radius: $radius;
+  -ms-border-radius: $radius;
+  border-radius: $radius;
+}
+
+@mixin box-shadow($shadow) {
+  -webkit-box-shadow: $shadow;
+  -moz-box-shadow: $shadow;
+  -ms-box-shadow: $shadow;
+  box-shadow: $shadow;
+}
+
+/* Mixin for Columns of grids */
+
+.col-common {
+  float: left;
+  padding: $gutter;
+  @include border-radius($border-radius);
+}
+
+@mixin col-grid($no-of-columns) {
+  @for $column-number from 1 through $no-of-columns {
+    .col-#{$column-number} {
+      @extend .col-common;
+      width:((($col-width * $column-number) / $container-width) * 100)#{$percentage-symbol};
+    }
+  }
+}
+
+/* Mixin for Backgrounds of destinations */
+@mixin destinations($no-of-destinations) {
+  @for $grid-number from 1 through $no-of-destinations {
+    .destination#{$grid-number} {
+      background-image: url(../images/greeceimage#{$grid-number}.png);
+      @extend %bg-stuff;
+    }
+  }
+}
