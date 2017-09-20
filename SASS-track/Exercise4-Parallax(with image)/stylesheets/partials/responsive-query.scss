@@ -1,0 +1,25 @@
+@media #{$tablet} , #{$mobile} {
+
+  .section1 {
+     min-height: 1000px;
+    .container {
+      flex-direction: column;
+    }
+
+    .description {
+      text-align: center;
+    }
+  }
+
+  .ordered-col {
+    order:-1;
+  }
+
+  .navlinks {
+    padding: 4px;
+  }
+
+  .title {
+    font-size:32px;
+  }
+}

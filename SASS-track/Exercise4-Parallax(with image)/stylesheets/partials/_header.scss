@@ -1,0 +1,13 @@
+.header {
+  padding: $padding-tb 0;
+
+  .container {
+    text-align: center;
+  }
+}
+
+.navlinks {
+  @include link-colors(transparent,$navigation-link-color,$navigation-link-color,$bg-color);
+  padding: 20px;
+  text-decoration: none;
+}

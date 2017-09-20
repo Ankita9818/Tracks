@@ -1,0 +1,15 @@
+.btn-clickme {
+  border:3px solid white;
+  color: $text-color;
+  font-size: $btn-font-size;
+  font-weight: 700;
+  padding: 20px 30px;
+  text-decoration:none;
+  text-transform: uppercase;
+
+  @include border-radius(10px);
+}
+
+@include bg-btn($btn-bgs);
+
+
