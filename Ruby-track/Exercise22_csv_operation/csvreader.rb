@@ -1,5 +1,5 @@
 require 'csv'
-require 'employee'
+require_relative 'employee.rb'
 
 #class CSVReader
 class CSVReader < Employee
