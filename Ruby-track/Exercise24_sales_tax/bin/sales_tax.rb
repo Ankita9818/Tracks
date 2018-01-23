@@ -1,7 +1,8 @@
-require_relative 'product'
-require_relative 'product_receipt'
+require_relative '../lib/product'
+require_relative '../lib/invoice'
 
-products_array = []
+REGEX_FOR_YES = /^(y|yes)$/i
+current_order = Order.new
 
 begin
   print 'Name of the product : '
@@ -16,10 +17,10 @@ begin
   print 'Price of Product: '
   price = gets.to_f
 
-  products_array << Product.new(product_name, price, imported, exempted_sales_tax)
+  current_order.add_order_item(product_name, price, imported, exempted_sales_tax)
+
   print 'Do you want to add more products ? (y/n):'
   choice = gets.chomp
-end while(/^(y|yes)$/i === choice)
+end while(REGEX_FOR_YES === choice)
 
-invoice = ProductReceipt.new(products_array)
-puts invoice.display
+puts Invoice.new(current_order).generate
