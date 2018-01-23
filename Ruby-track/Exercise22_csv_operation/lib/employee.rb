@@ -11,4 +11,8 @@ class Employee
   def to_s
     "#{ name } (EmpId: #{ emp_id })"
   end
+
+  def <=>(employee)
+    emp_id <=> employee.emp_id
+  end
 end
