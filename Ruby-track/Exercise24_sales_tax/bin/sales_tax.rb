@@ -17,7 +17,7 @@ begin
   print 'Price of Product: '
   price = gets.to_f
 
-  current_order.add_order_item(product_name, price, imported, exempted_sales_tax)
+  current_order.add(Product.new(product_name, price, imported, exempted_sales_tax))
 
   print 'Do you want to add more products ? (y/n):'
   choice = gets.chomp
