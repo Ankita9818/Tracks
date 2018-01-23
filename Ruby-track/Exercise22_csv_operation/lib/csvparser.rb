@@ -12,8 +12,8 @@ class CSVParser
   end
 
   def read_csv
-    raise FileNotFoundException, "File not found, Please check name of csv file" unless File.exist?(File.expand_path(input_file_name, path_to_file))
-    CSV.foreach(File.expand_path(input_file_name, path_to_file), headers: true, col_sep: ', ') do |row|
+    raise FileNotFoundError, "File not found, Please check name of csv file" unless File.exist?(file_path(input_file_name))
+    CSV.foreach(file_path(input_file_name), headers: true, col_sep: ', ') do |row|
       employees[row[2]] << Employee.new(row[0], row[1].to_i, row[2])
     end
     sort_employees_by_id
@@ -26,8 +26,12 @@ class CSVParser
     end
   end
 
+  def file_path(filename)
+    File.expand_path(filename, path_to_file)
+  end
+
   def write_into_file
-    File.open(File.expand_path(output_file_name, path_to_file), 'w') do |file|
+    File.open(file_path(output_file_name), 'w') do |file|
       employees.each do |designation, value|
         file.puts @employees[designation].length > 1 ? "#{designation}s" : "#{designation}"
         file.puts value
