@@ -1,8 +1,9 @@
 class Movie
   @instances = Array.new
-  attr_reader :title, :sh
+  attr_reader :title, :sh, :instances
   def initialize(title)
     @title = title
+    self.class.all_movies << self
     Movie.all_movies << self
   end
 
