@@ -1,13 +1,13 @@
 # Class DynamicClass
 class DynamicClass
-  attr_reader :new_class_name, :class_obj
+  attr_reader :new_class_name, :new_class
   def initialize(class_name)
     @new_class_name = class_name
-    @class_obj = Object.const_set(new_class_name, Class.new)
+    @new_class = Object.const_set(new_class_name, Class.new)
   end
 
   def def_method(method_name, method_code)
-    class_obj.class_eval do
+    new_class.class_eval do
       define_method(method_name) do
         instance_eval method_code
       end
@@ -16,7 +16,7 @@ class DynamicClass
   end
 
   def call(method_name)
-    class_obj.new.instance_eval method_name
+    new_class.new.send method_name
   end
 end
 
