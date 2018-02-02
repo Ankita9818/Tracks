@@ -16,7 +16,7 @@ class DynamicClass
   end
 
   def call(method_name)
-    new_class.new.send method_name
+    new_class.new.instance_eval method_name
   end
 end
 
