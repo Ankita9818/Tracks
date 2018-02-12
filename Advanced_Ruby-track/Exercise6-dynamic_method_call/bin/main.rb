@@ -6,10 +6,14 @@ print 'Applicable methods => '
 p DerivedClass.instance_methods(false)
 print 'Please enter the method name : '
 method_name = gets.chomp
-print 'Please enter the arguments : '
-*arguments = gets.chomp.split(' ')
+args = []
+str_instance.method(method_name.to_sym).parameters.each do |param|
+  print "Please enter the #{param[0] =~ /req/ ? 'required' : 'optional'} argument #{param[1]} : "
+  arg = gets.chomp
+  args <<  arg if arg != ""
+end
 begin
-  puts str_instance.public_send method_name, *arguments
+  puts str_instance.public_send method_name, *args
 rescue StandardError => e
-  puts 'Error occurred - ' + e.message
+    p 'Error occurred - ' + e.message
 end

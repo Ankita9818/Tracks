@@ -1,18 +1,19 @@
 class DerivedClass < String
-  def exclude?(substr, *)
+  def exclude?(substr)
     !include?(substr)
   end
 
-  def succ_n(n, *)
-    n, nth_succ = n.to_i, self
-    while (n > 0)
-      n -= 1
-      nth_succ.succ!
-    end
-    nth_succ
+  def fun
+    'Hi I dont need an argument'
   end
 
-  def print_arguments(req, *optional)
-    "Hello from #{self}, I have #{optional.length + 1} arguments => \nRequired - #{req}\nOptional - #{optional.inspect}"
+  def sum(a, b, c=1)
+    puts "a = #{a}\tb = #{b}\tc = #{c}"
+    a.to_i + b.to_i + c.to_i
+  end
+
+  def product(num1, num2=2, num3=1)
+    puts "num1 = #{num1}\tnum2 = #{num2}\tnum3 = #{num3}"
+    num1.to_i * num2.to_i * num3.to_i
   end
 end
