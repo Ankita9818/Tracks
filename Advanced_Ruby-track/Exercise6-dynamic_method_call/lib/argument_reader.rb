@@ -17,6 +17,8 @@ class ArgumentReader
     arguments
   end
 
+  private
+
   def get_required_params(parameter_name)
     print "Please enter the required argument #{parameter_name} : "
     arguments << gets.chomp
