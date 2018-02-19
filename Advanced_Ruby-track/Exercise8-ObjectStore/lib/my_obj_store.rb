@@ -36,7 +36,7 @@ module MyObjectStore
       dynamic_finders.each do |param|
         singleton_class.instance_eval do
           define_method("find_by_#{ param }") do |value|
-            get_saved_objects.find_all { |object| object.public_send(param).eql? value }
+            get_saved_objects.find_all { |object| object.public_send(param) == value }
           end
         end
       end
