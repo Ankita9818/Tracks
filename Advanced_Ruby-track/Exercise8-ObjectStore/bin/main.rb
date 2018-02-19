@@ -19,8 +19,15 @@ p3.email = 'xyz@gmail.com'
 p3.age = 14
 puts p3.save
 
-p Play.collect
-p Play.count
+p4 = Play.new
+p4.fname = 'ritu'
+p4.lname = 'tyagi'
+p4.email = 'riiriz@gmail.com'
+p4.age = 19
+puts p4.save
+
+p "all objects = #{Play.collect}"
+p "No of saved objects = #{Play.count}"
 
 p Play.find_by_fname('anu')
-p Play.find_by_age(14)
+p Play.find_by_age(19)
