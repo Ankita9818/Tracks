@@ -1,62 +1,44 @@
 module DirtyObject
 
-  def initialize
-    @dirty_obj_hash = Hash.new{ |h, k| h[k] = ['nil'] }
-    @obj_changed = false
-  end
+  module ClassMethods
+    def get_obj_hash
+      @_dirty_obj_hash ||= Hash.new { |h, k| h[k] = [nil, nil] }
+    end
 
-  def update_dirty_obj_hash(value, attribute)
-    if @dirty_obj_hash[attribute].first != value
-      update_attr_value(attribute, value)
-    else
-      update_again_to_previous_value(value, attribute)
+    def define_dirty_attributes(*args)
+      anonymous_module = Module.new do
+        args.each do |attribute|
+          define_method("#{attribute}=") do |value|
+            update_dirty_obj_hash(attribute, value)
+            super(value)
+          end
+
+          define_method("#{attribute}_was") do
+            self.class.get_obj_hash[attribute].first
+          end
+        end
+      end
+      prepend anonymous_module
     end
   end
 
-  def update_again_to_previous_value(value, attribute)
-    @dirty_obj_hash.delete(attribute)
-    @obj_changed = false if @dirty_obj_hash.empty?
-  end
-
-  def update_attr_value(attribute, value)
-    @dirty_obj_hash[attribute] << value
-    @dirty_obj_hash[attribute].shift if @dirty_obj_hash[attribute].length > 2
+  def update_dirty_obj_hash(attribute, value)
+    self.class.get_obj_hash[attribute][1] = value
   end
 
   def changed?
-    @obj_changed
+    !changes.empty?
   end
 
   def changes
-    changed? ? @dirty_obj_hash : {}
+    self.class.get_obj_hash.select { |_key, value| value[0] != value[1] }
   end
 
   def save
-    @obj_changed = false
-    @dirty_obj_hash.each { |key, value| value.shift }
+    self.class.get_obj_hash.each { |_key, value| value[0] = value[1] }
   end
 
   def self.included(base)
     base.extend ClassMethods
-  end
-
-  module ClassMethods
-    def define_dirty_attributes(*args)
-      args.each do |attribute|
-        define_method(attribute) do
-          @attribute
-        end
-
-        define_method("#{attribute}=") do |value|
-          @obj_changed = true
-          @attribute = value
-          update_dirty_obj_hash(value, attribute)
-        end
-
-        define_method("#{attribute}_was") do
-          @dirty_obj_hash[attribute].first
-        end
-      end
-    end
   end
 end
