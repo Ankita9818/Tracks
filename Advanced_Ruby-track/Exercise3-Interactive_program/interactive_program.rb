@@ -1,25 +1,26 @@
 # Class InteractiveProgram
 class InteractiveProgram
-  @complete_command = ''
-  class << self
-    @last_command = ""
-    def create_command
-      while(@last_command != "q\n")
-        @last_command = gets
-        @complete_command += @last_command
-        evaluate_command if @last_command == "\n"
-      end
-    end
 
-    def evaluate_command
-      eval(@complete_command, TOPLEVEL_BINDING)
-      @complete_command = ''
-    end
+  def initialize(cmd)
+    @command = cmd
+  end
+
+  def evaluate_command
+    eval(@command, TOPLEVEL_BINDING)
   end
 end
 
 begin
-  InteractiveProgram.create_command
+  cmd = ''
+  complete_command = ''
+  while(cmd != "q\n")
+    cmd = gets
+    complete_command += cmd
+    if cmd == "\n"
+      InteractiveProgram.new(complete_command).evaluate_command
+      complete_command = ''
+    end
+  end
 rescue Exception => e
   puts 'Exception arises - ' + e.message
 end
