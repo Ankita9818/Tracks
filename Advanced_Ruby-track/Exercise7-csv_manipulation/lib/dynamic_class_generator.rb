@@ -1,6 +1,6 @@
 # Class DynamicClassGenerator
 class DynamicClassGenerator
-  attr_reader :new_class_name, :new_class, :input_file_name, :path_to_file, :object_array, :csv_file_obj
+  attr_reader :new_class_name, :new_class, :object_array, :csv_file_obj
   def initialize(input_file_name)
     @new_class_name = input_file_name.scan(/\w+/)[0].capitalize
     @new_class = Object.const_set(new_class_name, Class.new)
@@ -18,7 +18,7 @@ class DynamicClassGenerator
     @csv_file_obj.each do |row|
       klass = new_class.new
       headers.each_with_index do |header_name, index|
-        klass.instance_variable_set(eval(":@#{header_name}"), row[index])
+        klass.instance_variable_set("@#{header_name}", row[index])
       end
       @object_array << klass
     end
