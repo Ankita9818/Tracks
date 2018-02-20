@@ -1,0 +1,2 @@
+class InvalidHeaderNameError < StandardError
+end
