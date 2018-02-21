@@ -39,18 +39,18 @@ class Class
   end
 
   def create_instance_writer_method(attribute)
-    class_eval %(
-      def #{attribute}=(value)
-        @@#{attribute} = value
+    class_eval do
+      define_method("#{attribute}=") do |value|
+        self.class.class_eval("@@#{attribute} = #{value}")
       end
-    )
+    end
   end
 
   def create_instance_reader_method(attribute)
-    class_eval %(
-      def #{attribute}
-        @@#{attribute}
+    class_eval do
+      define_method(attribute) do
+        self.class.class_eval("@@#{attribute}")
       end
-    )
+    end
   end
 end
