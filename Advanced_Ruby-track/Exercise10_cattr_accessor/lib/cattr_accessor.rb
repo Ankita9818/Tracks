@@ -31,11 +31,7 @@ class Class
   end
 
   def initialize_class_attr(attribute)
-    class_eval %(
-      unless defined? @@#{attribute}
-        @@#{attribute} = nil
-      end
-    )
+    class_eval %(@@#{attribute} = nil unless defined? @@#{attribute})
   end
 
   def create_instance_writer_method(attribute)
