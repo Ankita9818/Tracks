@@ -39,3 +39,4 @@ puts "No of saved objects = #{Play.count}\n"
 p Play.find_by_fname('anu')
 puts
 p Play.find_by_age(11)
+# p Play.hjdhjbj #=> will give NoMethodError
