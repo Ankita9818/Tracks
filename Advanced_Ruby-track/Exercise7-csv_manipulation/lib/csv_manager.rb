@@ -2,7 +2,7 @@ require 'csv'
 require_relative 'file_not_found_error'
 require_relative 'dynamic_class_generator'
 
-class CSVReader
+class CSVManager
 
   attr_reader :input_file_name, :path_to_file, :csv_file
   def initialize(input_file_name, path_to_file)
