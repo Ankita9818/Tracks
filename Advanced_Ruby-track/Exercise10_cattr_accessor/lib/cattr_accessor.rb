@@ -14,10 +14,10 @@ class Class
     args.each do |attribute|
       initialize_class_attr(attribute)
       create_class_accessor_methods(attribute)
-      unless options[:instance_writer] == false || options[:instance_accessor] == false
+      unless options[:instance_writer].eql?(false) || options[:instance_accessor].eql?(false)
         create_instance_writer_method(attribute)
       end
-      unless options[:instance_reader] == false || options[:instance_accessor] == false
+      unless options[:instance_reader].eql?(false) || options[:instance_accessor].eql?(false)
         create_instance_reader_method(attribute)
       end
     end
