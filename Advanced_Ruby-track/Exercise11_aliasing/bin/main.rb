@@ -23,3 +23,4 @@ say.send :greet_without_logger
 # hello
 
 # p say.private_methods
+# p say.methods

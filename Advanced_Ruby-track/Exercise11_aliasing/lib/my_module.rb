@@ -1,33 +1,43 @@
+# Module MyModule
 module MyModule
+  REGEX_FOR_METHOD_NAME = /(\w*)([?=!]?)/
+
   def chained_aliasing(orig_meth, aliased_meth)
-    method_name, modifier = fetch_name_and_modifier(orig_meth)
-    method_name_with_modifier = "#{method_name}_with_#{aliased_meth}#{modifier}".to_sym
-    method_name_without_modifier = "#{method_name}_without_#{aliased_meth}#{modifier}".to_sym
+    meth_with_alias, meth_without_alias = generate_aliased_names(orig_meth, aliased_meth)
 
-    alias_method method_name_without_modifier, orig_meth
-    alias_method orig_meth, method_name_with_modifier
+    alias_method meth_without_alias, orig_meth
+    alias_method orig_meth, meth_with_alias
 
-    setup_methods_scope(orig_meth, method_name_with_modifier, method_name_without_modifier)
+    setup_methods_scope(orig_meth, meth_with_alias, meth_without_alias)
+  end
+
+  def generate_aliased_names(orig_meth, aliased_meth)
+    method_name = fetch_name_and_modifier(orig_meth)
+    meth_with_alias = "#{method_name['name']}_with_#{aliased_meth}#{method_name['modifier']}".to_sym
+    meth_without_alias = "#{method_name['name']}_without_#{aliased_meth}#{method_name['modifier']}".to_sym
+    [meth_with_alias, meth_without_alias]
   end
 
   def fetch_name_and_modifier(orig_method_name)
-    name_array = []
-    method_name_with_modifier = orig_method_name.match(/(\w*)([?=!]?)/)
-    name_array << method_name_with_modifier[1] << method_name_with_modifier[2]
+    method_name_hash = {}
+    name_with_modifier = orig_method_name.match(REGEX_FOR_METHOD_NAME)
+    method_name_hash['name'] = name_with_modifier[1]
+    method_name_hash['modifier'] = name_with_modifier[2]
+    method_name_hash
   end
 
-  def setup_methods_scope(method_original, method_name_with_modifier, method_name_without_modifier)
-    if public_method_defined?(method_name_without_modifier)
+  def setup_methods_scope(original_meth, meth_with_alias, meth_without_alias)
+    if public_method_defined?(meth_without_alias)
       class_eval do
-        public method_name_with_modifier, method_original
+        public meth_with_alias, original_meth
       end
-    elsif protected_method_defined?(method_name_without_modifier)
+    elsif protected_method_defined?(meth_without_alias)
       class_eval do
-        protected method_name_with_modifier, method_original
+        protected meth_with_alias, original_meth
       end
-    elsif private_method_defined?(method_name_without_modifier)
+    elsif private_method_defined?(meth_without_alias)
       class_eval do
-        private method_name_with_modifier, method_original
+        private meth_with_alias, original_meth
       end
     end
   end
