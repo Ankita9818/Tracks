@@ -1,0 +1,20 @@
+Exercise1 - Alter Table
+1 - Create Table testing_table
+  CREATE TABLE testing_table (
+    name VARCHAR(20),
+    contact_name VARCHAR(20),
+    roll_no VARCHAR(10)
+  );
+
+2 - Delete column name
+  ALTER TABLE testing_table DROP name;
+
+3 - rename contact_name to username.
+  ALTER TABLE testing_table CHANGE contact_name username VARCHAR(20);
+
+4 - Add two fields first_name, last_name.
+  ALTER TABLE testing_table ADD first_name VARCHAR(20),
+    ADD last_name VARCHAR(20);
+
+5 - Also change the type of roll_no to integer.
+  ALTER TABLE testing_table MODIFY roll_no INT;
