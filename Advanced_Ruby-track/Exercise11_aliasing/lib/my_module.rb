@@ -3,19 +3,20 @@ module MyModule
   REGEX_FOR_METHOD_NAME = /(\w*)([?=!]?)/
 
   def chained_aliasing(orig_meth, aliased_meth)
-    meth_with_alias, meth_without_alias = generate_aliased_names(orig_meth, aliased_meth)
+    generate_aliased_names(orig_meth, aliased_meth)
 
-    alias_method meth_without_alias, orig_meth
-    alias_method orig_meth, meth_with_alias
+    alias_method @meth_without_alias, orig_meth
+    alias_method orig_meth, @meth_with_alias
 
-    setup_methods_scope(orig_meth, meth_with_alias, meth_without_alias)
+    setup_methods_scope(orig_meth)
   end
+
+  private
 
   def generate_aliased_names(orig_meth, aliased_meth)
     method_name = fetch_name_and_modifier(orig_meth)
-    meth_with_alias = "#{method_name['name']}_with_#{aliased_meth}#{method_name['modifier']}".to_sym
-    meth_without_alias = "#{method_name['name']}_without_#{aliased_meth}#{method_name['modifier']}".to_sym
-    [meth_with_alias, meth_without_alias]
+    @meth_with_alias = "#{method_name['name']}_with_#{aliased_meth}#{method_name['modifier']}".to_sym
+    @meth_without_alias = "#{method_name['name']}_without_#{aliased_meth}#{method_name['modifier']}".to_sym
   end
 
   def fetch_name_and_modifier(orig_method_name)
@@ -26,18 +27,18 @@ module MyModule
     method_name_hash
   end
 
-  def setup_methods_scope(original_meth, meth_with_alias, meth_without_alias)
-    if public_method_defined?(meth_without_alias)
+  def setup_methods_scope(original_meth)
+    if public_method_defined?(@meth_without_alias)
       class_eval do
-        public meth_with_alias, original_meth
+        public @meth_with_alias, original_meth
       end
-    elsif protected_method_defined?(meth_without_alias)
+    elsif protected_method_defined?(@meth_without_alias)
       class_eval do
-        protected meth_with_alias, original_meth
+        protected @meth_with_alias, original_meth
       end
-    elsif private_method_defined?(meth_without_alias)
+    elsif private_method_defined?(@meth_without_alias)
       class_eval do
-        private meth_with_alias, original_meth
+        private @meth_with_alias, original_meth
       end
     end
   end
