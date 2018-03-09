@@ -1,0 +1,116 @@
+mysql> CREATE DATABASE libraries;
+Query OK, 1 row affected (0.00 sec)
+
+mysql> USE libraries;
+Database changed
+
+CREATE TABLE Branch (
+  BCode VARCHAR(5) PRIMARY KEY,
+  Librarian VARCHAR(20) NOT NULL,
+  Address VARCHAR(30) NOT NULL
+);
+
+CREATE TABLE Titles (
+  Title VARCHAR(30) PRIMARY KEY,
+  Author VARCHAR(30) NOT NULL,
+  Publisher VARCHAR(30) NOT NULL
+);
+
+CREATE TABLE Holdings (
+  Branch VARCHAR(30) NOT NULL,
+  Title VARCHAR(30) NOT NULL,
+  Copies INT UNSIGNED NOT NULL,
+  PRIMARY KEY(Branch, Title),
+  FOREIGN KEY (Branch) REFERENCES Branch (BCode)
+  ON DELETE CASCADE ON UPDATE CASCADE,
+  FOREIGN KEY (Title) REFERENCES Titles (Title)
+  ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+INSERT INTO Branch
+VALUES( 'B1', 'John Smith', '2 Angelesea Rd' ),
+( 'B2', 'Mary Jones', '34 Pearse St' ),
+( 'B3', 'Francis Owens', 'Grange X' );
+
+INSERT INTO Titles
+VALUES( 'Susannah', 'Ann Brown', 'Macmillan' ),
+( 'How to Fish', 'Amy Fly', 'Stop Press' ),
+( 'A History of Dublin', 'David Little', 'Wiley' ),
+( 'Computers', 'Blaise Pascal', 'Applewoods' ),
+( 'The WIfe', 'Ann Brown', 'Macmillan' );
+
+INSERT INTO Holdings
+VALUES( 'B1', 'Susannah', 3 ),
+( 'B1', 'How to Fish', 2 ),
+( 'B1', 'A History of Dublin', 1 ),
+( 'B2', 'How to Fish', 4 ),
+( 'B2', 'Computers', 2 ),
+( 'B2', 'The WIfe', 3 ),
+( 'B3', 'A History of Dublin', 1 ),
+( 'B3', 'Computers', 4 ),
+( 'B3', 'Susannah', 3 ),
+( 'B3', 'The WIfe', 1 );
+
+******************Queries**********************
+1 - the names of all library books published by macmillan.
+Query ->
+SELECT Title
+FROM Titles
+WHERE Publisher = 'Macmillan';
+
+Output -
++----------+
+| Title    |
++----------+
+| Susannah |
+| The WIfe |
++----------+
+
+2 - branches that hold any book by ann brown (with nested query)
+Query ->
+SELECT DISTINCT Branch
+From Holdings
+WHERE Title = ANY(
+  SELECT Title
+  FROM Titles
+  WHERE Author = 'Ann Brown'
+);
+
+Output -
++--------+
+| Branch |
++--------+
+| B1     |
+| B3     |
+| B2     |
++--------+
+
+3 -  branches that hold any book by ann brown (without nested query)
+Query ->
+SELECT DISTINCT Branch
+FROM Holdings H, Titles T
+WHERE H.Title = T.Title AND Author = 'Ann Brown';
+
+Output -
++--------+
+| Branch |
++--------+
+| B1     |
+| B3     |
+| B2     |
++--------+
+
+4 - the total no of books held at each branch
+Query ->
+SELECT Branch, SUM(Copies) AS Total_Copies
+FROM Holdings
+GROUP BY Branch;
+
+Output -
++--------+--------------+
+| Branch | Total_Copies |
++--------+--------------+
+| B1     |            6 |
+| B2     |            9 |
+| B3     |            9 |
++--------+--------------+

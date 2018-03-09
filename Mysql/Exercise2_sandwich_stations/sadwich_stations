@@ -1,0 +1,105 @@
+mysql> CREATE DATABASE Sandwich_stations;
+Query OK, 1 row affected (0.00 sec)
+
+mysql> USE Sandwich_stations;
+Database changed
+
+
+mysql> CREATE TABLE Tastes (
+    ->   Name VARCHAR(20) NOT NULL,
+    ->   Filling VARCHAR(20) NOT NULL,
+    ->   PRIMARY KEY (Name, Filling)
+    -> );
+
+mysql> CREATE TABLE Locations (
+    ->   LName VARCHAR(20) PRIMARY KEY,
+    ->   Phone CHAR(7) NOT NULL,
+    ->   Address VARCHAR(60) NOT NULL
+    -> );
+
+mysql> CREATE TABLE Sandwiches (
+    ->   Location VARCHAR(20) NOT NULL,
+    ->   Bread VARCHAR(20) NOT NULL,
+    ->   Filling VARCHAR(20) NOT NULL,
+    ->   Price DOUBLE(4,2) NOT NULL,
+    ->   PRIMARY KEY (Location,Bread, Filling),
+    ->   FOREIGN KEY (Location) REFERENCES Locations (LName)
+    ->   ON DELETE CASCADE ON UPDATE CASCADE
+    -> );
+
+mysql> INSERT INTO Tastes
+    -> VALUES( 'Brown', 'Turkey' ),
+    -> ( 'Brown', 'Beef' ),
+    -> ( 'Brown', 'Ham' ),
+    -> ( 'Jones', 'Cheese' ),
+    -> ( 'Green', 'Beef' ),
+    -> ( 'Green', 'Turkey' ),
+    -> ( 'Green', 'Cheese' );
+
+mysql> INSERT INTO Locations
+    -> VALUES( 'Lincoln', '6834523', 'Lincoln Place' ),
+    -> ( 'O\'Neill\'s', '6742134', 'Pearse St' ),
+    -> ( 'Old Nag', '7678132', 'Dame St' ),
+    -> ( 'Buttery', '7023421', 'College St' );
+
+mysql> INSERT INTO Sandwiches
+    -> VALUES( 'Lincoln', 'Rye', 'Ham', 1.25),
+    -> ( 'O\'Neill\'s', 'White', 'Cheese', 1.20),
+    -> ( 'O\'Neill\'s', 'Whole', 'Ham', 1.25),
+    -> ( 'Old Nag', 'Rye', 'Beef', 1.35),
+    -> ( 'Buttery', 'White', 'Cheese', 1.00 ),
+    -> ( 'O\'Neill\'s', 'White', 'Turkey', 1.35 ),
+    -> ( 'Buttery', 'White', 'Ham', 1.10 ),
+    -> ( 'Lincoln', 'Rye', 'Beef', 1.35 ),
+    -> ( 'Lincoln', 'White', 'Ham', 1.30 ),
+    -> ( 'Old Nag', 'Rye', 'Ham', 1.40 );
+
+
+******************Queries**********************
+1 - places where Jones can eat( using a nested subquery).
+Query ->
+SELECT Location
+FROM Sandwiches
+WHERE Filling = (
+  SELECT Filling
+  FROM Tastes
+  WHERE Name = 'Jones'
+);
+
+Output -
++-----------+
+| Location  |
++-----------+
+| Buttery   |
+| O'Neill's |
++-----------+
+
+2 - places where Jones can eat( without using a nested subquery).
+SELECT Location
+FROM Sandwiches AS S, Tastes as T
+WHERE T.Name = 'Jones' AND S.Filling = T.Filling ;
+
+Output -
++-----------+
+| Location  |
++-----------+
+| Buttery   |
+| O'Neill's |
++-----------+
+
+3 - For each location the number of people who can eat there
+Query ->
+SELECT Location, COUNT(DISTINCT Name) AS Total
+FROM Sandwiches, Tastes
+WHERE Sandwiches.Filling = Tastes.Filling
+Group By Location;
+
+Output -
++-----------+-------+
+| Location  | Total |
++-----------+-------+
+| Buttery   |     3 |
+| Lincoln   |     2 |
+| O'Neill's |     3 |
+| Old Nag   |     2 |
++-----------+-------+
