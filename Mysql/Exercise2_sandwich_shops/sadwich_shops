@@ -1,33 +1,33 @@
-mysql> CREATE DATABASE Sandwich_stations;
+mysql> CREATE DATABASE sandwich_shops;
 Query OK, 1 row affected (0.00 sec)
 
-mysql> USE Sandwich_stations;
+mysql> USE sandwich_shops;
 Database changed
 
 
-mysql> CREATE TABLE Tastes (
-    ->   Name VARCHAR(20) NOT NULL,
-    ->   Filling VARCHAR(20) NOT NULL,
-    ->   PRIMARY KEY (Name, Filling)
+mysql> CREATE TABLE tastes (
+    ->   name VARCHAR(20) NOT NULL,
+    ->   filling VARCHAR(20) NOT NULL,
+    ->   PRIMARY KEY (name, filling)
     -> );
 
-mysql> CREATE TABLE Locations (
-    ->   LName VARCHAR(20) PRIMARY KEY,
-    ->   Phone CHAR(7) NOT NULL,
-    ->   Address VARCHAR(60) NOT NULL
+mysql> CREATE TABLE locations (
+    ->   lname VARCHAR(20) PRIMARY KEY,
+    ->   phone CHAR(7) NOT NULL,
+    ->   address VARCHAR(60) NOT NULL
     -> );
 
-mysql> CREATE TABLE Sandwiches (
-    ->   Location VARCHAR(20) NOT NULL,
-    ->   Bread VARCHAR(20) NOT NULL,
-    ->   Filling VARCHAR(20) NOT NULL,
-    ->   Price DOUBLE(4,2) NOT NULL,
-    ->   PRIMARY KEY (Location,Bread, Filling),
-    ->   FOREIGN KEY (Location) REFERENCES Locations (LName)
+mysql> CREATE TABLE sandwiches (
+    ->   location VARCHAR(20) NOT NULL,
+    ->   bread VARCHAR(20) NOT NULL,
+    ->   filling VARCHAR(20) NOT NULL,
+    ->   price DOUBLE(4,2) NOT NULL,
+    ->   PRIMARY KEY (location,bread, filling),
+    ->   FOREIGN KEY (location) REFERENCES locations (lname)
     ->   ON DELETE CASCADE ON UPDATE CASCADE
     -> );
 
-mysql> INSERT INTO Tastes
+mysql> INSERT INTO tastes
     -> VALUES( 'Brown', 'Turkey' ),
     -> ( 'Brown', 'Beef' ),
     -> ( 'Brown', 'Ham' ),
@@ -36,13 +36,13 @@ mysql> INSERT INTO Tastes
     -> ( 'Green', 'Turkey' ),
     -> ( 'Green', 'Cheese' );
 
-mysql> INSERT INTO Locations
+mysql> INSERT INTO locations
     -> VALUES( 'Lincoln', '6834523', 'Lincoln Place' ),
     -> ( 'O\'Neill\'s', '6742134', 'Pearse St' ),
     -> ( 'Old Nag', '7678132', 'Dame St' ),
     -> ( 'Buttery', '7023421', 'College St' );
 
-mysql> INSERT INTO Sandwiches
+mysql> INSERT INTO sandwiches
     -> VALUES( 'Lincoln', 'Rye', 'Ham', 1.25),
     -> ( 'O\'Neill\'s', 'White', 'Cheese', 1.20),
     -> ( 'O\'Neill\'s', 'Whole', 'Ham', 1.25),
@@ -58,30 +58,30 @@ mysql> INSERT INTO Sandwiches
 ******************Queries**********************
 1 - places where Jones can eat( using a nested subquery).
 Query ->
-SELECT Location
-FROM Sandwiches
-WHERE Filling = (
-  SELECT Filling
-  FROM Tastes
-  WHERE Name = 'Jones'
+SELECT location
+FROM sandwiches
+WHERE filling = (
+  SELECT filling
+  FROM tastes
+  WHERE name = 'Jones'
 );
 
 Output -
 +-----------+
-| Location  |
+| location  |
 +-----------+
 | Buttery   |
 | O'Neill's |
 +-----------+
 
 2 - places where Jones can eat( without using a nested subquery).
-SELECT Location
-FROM Sandwiches AS S, Tastes as T
-WHERE T.Name = 'Jones' AND S.Filling = T.Filling ;
+SELECT location
+FROM sandwiches AS s, tastes as t
+WHERE t.name = 'Jones' AND s.filling = t.filling ;
 
 Output -
 +-----------+
-| Location  |
+| location  |
 +-----------+
 | Buttery   |
 | O'Neill's |
@@ -89,14 +89,14 @@ Output -
 
 3 - For each location the number of people who can eat there
 Query ->
-SELECT Location, COUNT(DISTINCT Name) AS Total
-FROM Sandwiches, Tastes
-WHERE Sandwiches.Filling = Tastes.Filling
-Group By Location;
+SELECT location, COUNT(DISTINCT name) AS total
+FROM sandwiches, tastes
+WHERE sandwiches.filling = tastes.filling
+Group By location;
 
 Output -
 +-----------+-------+
-| Location  | Total |
+| location  | Total |
 +-----------+-------+
 | Buttery   |     3 |
 | Lincoln   |     2 |

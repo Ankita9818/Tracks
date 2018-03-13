@@ -1,45 +1,45 @@
-mysql> CREATE DATABASE libraries;
+mysql> CREATE DATABASE multi_branch_libraries;
 Query OK, 1 row affected (0.00 sec)
 
-mysql> USE libraries;
+mysql> USE multi_branch_libraries;
 Database changed
 
-CREATE TABLE Branch (
-  BCode VARCHAR(5) PRIMARY KEY,
-  Librarian VARCHAR(20) NOT NULL,
-  Address VARCHAR(30) NOT NULL
+CREATE TABLE branch (
+  bcode VARCHAR(5) PRIMARY KEY,
+  librarian VARCHAR(20) NOT NULL,
+  address VARCHAR(30) NOT NULL
 );
 
-CREATE TABLE Titles (
-  Title VARCHAR(30) PRIMARY KEY,
-  Author VARCHAR(30) NOT NULL,
-  Publisher VARCHAR(30) NOT NULL
+CREATE TABLE titles (
+  title VARCHAR(30) PRIMARY KEY,
+  author VARCHAR(30) NOT NULL,
+  publisher VARCHAR(30) NOT NULL
 );
 
-CREATE TABLE Holdings (
-  Branch VARCHAR(30) NOT NULL,
-  Title VARCHAR(30) NOT NULL,
-  Copies INT UNSIGNED NOT NULL,
-  PRIMARY KEY(Branch, Title),
-  FOREIGN KEY (Branch) REFERENCES Branch (BCode)
+CREATE TABLE holdings (
+  branch VARCHAR(30) NOT NULL,
+  title VARCHAR(30) NOT NULL,
+  copies INT UNSIGNED NOT NULL,
+  PRIMARY KEY(branch, title),
+  FOREIGN KEY (branch) REFERENCES branch (bcode)
   ON DELETE CASCADE ON UPDATE CASCADE,
-  FOREIGN KEY (Title) REFERENCES Titles (Title)
+  FOREIGN KEY (title) REFERENCES titles (title)
   ON DELETE CASCADE ON UPDATE CASCADE
 );
 
-INSERT INTO Branch
+INSERT INTO branch
 VALUES( 'B1', 'John Smith', '2 Angelesea Rd' ),
 ( 'B2', 'Mary Jones', '34 Pearse St' ),
 ( 'B3', 'Francis Owens', 'Grange X' );
 
-INSERT INTO Titles
+INSERT INTO titles
 VALUES( 'Susannah', 'Ann Brown', 'Macmillan' ),
 ( 'How to Fish', 'Amy Fly', 'Stop Press' ),
 ( 'A History of Dublin', 'David Little', 'Wiley' ),
 ( 'Computers', 'Blaise Pascal', 'Applewoods' ),
 ( 'The WIfe', 'Ann Brown', 'Macmillan' );
 
-INSERT INTO Holdings
+INSERT INTO holdings
 VALUES( 'B1', 'Susannah', 3 ),
 ( 'B1', 'How to Fish', 2 ),
 ( 'B1', 'A History of Dublin', 1 ),
@@ -54,13 +54,13 @@ VALUES( 'B1', 'Susannah', 3 ),
 ******************Queries**********************
 1 - the names of all library books published by macmillan.
 Query ->
-SELECT Title
-FROM Titles
-WHERE Publisher = 'Macmillan';
+SELECT title
+FROM titles
+WHERE publisher = 'Macmillan';
 
 Output -
 +----------+
-| Title    |
+| title    |
 +----------+
 | Susannah |
 | The WIfe |
@@ -68,17 +68,17 @@ Output -
 
 2 - branches that hold any book by ann brown (with nested query)
 Query ->
-SELECT DISTINCT Branch
-From Holdings
-WHERE Title = ANY(
-  SELECT Title
-  FROM Titles
-  WHERE Author = 'Ann Brown'
+SELECT DISTINCT branch
+From holdings
+WHERE title IN (
+  SELECT title
+  FROM titles
+  WHERE author = 'Ann Brown'
 );
 
 Output -
 +--------+
-| Branch |
+| branch |
 +--------+
 | B1     |
 | B3     |
@@ -87,13 +87,13 @@ Output -
 
 3 -  branches that hold any book by ann brown (without nested query)
 Query ->
-SELECT DISTINCT Branch
-FROM Holdings H, Titles T
-WHERE H.Title = T.Title AND Author = 'Ann Brown';
+SELECT DISTINCT branch
+FROM holdings h, titles t
+WHERE h.title = t.title AND author = 'Ann Brown';
 
 Output -
 +--------+
-| Branch |
+| branch |
 +--------+
 | B1     |
 | B3     |
@@ -102,13 +102,13 @@ Output -
 
 4 - the total no of books held at each branch
 Query ->
-SELECT Branch, SUM(Copies) AS Total_Copies
-FROM Holdings
-GROUP BY Branch;
+SELECT branch, SUM(copies) AS total_copies
+FROM holdings
+GROUP BY branch;
 
 Output -
 +--------+--------------+
-| Branch | Total_Copies |
+| branch | total_Copies |
 +--------+--------------+
 | B1     |            6 |
 | B2     |            9 |
