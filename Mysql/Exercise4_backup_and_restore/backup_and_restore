@@ -1,0 +1,24 @@
+Created a database BooksDB for practice
+to backup -
+mysqldump -u root -p BooksDB > /Users/vinsol/Desktop/Tracks/Mysql/Exercise4_backup_and_restore/booksdbdump.sql
+
+
+mysql> CREATE DATABASE restored;
+
+mysql> USE restored;
+Database changed
+
+mysql> show tables;
+Empty set (0.00 sec)
+
+Restore ->
+mysql -u root -p restored < /Users/vinsol/Desktop/Tracks/Mysql/Exercise4_backup_and_restore/booksdbdump.sql
+
++--------------------+
+| Tables_in_restored |
++--------------------+
+| AuthorBook         |
+| Authors            |
+| Books              |
++--------------------+
+Tables are restored to this db.
