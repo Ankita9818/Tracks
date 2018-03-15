@@ -1,0 +1,14 @@
+Ques - Create a DB named "vtapp", create a db user named 'vtapp_user' and give him permissions to access vtappDB
+
+Note: Lets also set some password for the new user.
+
+
+***************************Commands ->***************************
+
+mysql> CREATE DATABASE vtapp;
+
+mysql> CREATE USER 'vtapp_user'@'localhost' IDENTIFIED BY 'vtapp_pswd';
+
+mysql> GRANT SELECT,INSERT,UPDATE,CREATE,DROP
+    -> ON vtapp.*
+    -> TO 'vtapp_user'@'localhost';
