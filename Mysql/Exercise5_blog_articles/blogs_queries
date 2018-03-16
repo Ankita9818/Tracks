@@ -1,0 +1,327 @@
+****************** creating database ******************
+mysql> CREATE DATABASE blogsdb;
+
+mysql> USE blogsdb;
+
+****************** creating tables ******************
+mysql> CREATE TABLE user
+    -> ( id CHAR(4) PRIMARY KEY,
+    ->   name VARCHAR(20) NOT NULL,
+    ->   role ENUM('admin', 'normal') NOT NULL
+    -> );
+Query OK, 0 rows affected (0.08 sec)
+
+mysql> CREATE TABLE categories
+    -> ( id CHAR(3) PRIMARY KEY,
+    ->   name VARCHAR(20) NOT NULL
+    -> );
+Query OK, 0 rows affected (0.02 sec)
+
+
+mysql> CREATE TABLE articles
+    -> ( id CHAR(3) PRIMARY KEY,
+    ->   subject VARCHAR(30) NOT NULL,
+    ->   author char(4) NOT NULL,
+    ->   category_id CHAR(3) NOT NULL,
+    ->   FOREIGN KEY(author) REFERENCES user(id),
+    ->   FOREIGN KEY(category_id) REFERENCES categories(id)
+    -> );
+
+mysql> CREATE TABLE comments
+    -> ( user_id CHAR(4) NOT NULL,
+    ->   article_id CHAR(3) NOT NULL,
+    ->   comment VARCHAR(200),
+    ->   id CHAR(7) PRIMARY KEY,
+    ->   FOREIGN KEY(user_id) REFERENCES user(id),
+    ->   FOREIGN KEY(article_id) REFERENCES articles(id)
+    -> );
+
+****************** table schema ******************
+mysql> SHOW TABLES;
++-------------------+
+| Tables_in_blogsdb |
++-------------------+
+| articles          |
+| categories        |
+| comments          |
+| user              |
++-------------------+
+
+mysql> DESCRIBE user;
++-------+------------------------+------+-----+---------+-------+
+| Field | Type                   | Null | Key | Default | Extra |
++-------+------------------------+------+-----+---------+-------+
+| id    | char(4)                | NO   | PRI | NULL    |       |
+| name  | varchar(20)            | NO   |     | NULL    |       |
+| role  | enum('admin','normal') | NO   |     | NULL    |       |
++-------+------------------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> DESCRIBE articles;
++-------------+-------------+------+-----+---------+-------+
+| Field       | Type        | Null | Key | Default | Extra |
++-------------+-------------+------+-----+---------+-------+
+| id          | char(3)     | NO   | PRI | NULL    |       |
+| subject     | varchar(30) | NO   |     | NULL    |       |
+| author      | char(4)     | NO   | MUL | NULL    |       |
+| category_id | char(3)     | NO   | MUL | NULL    |       |
++-------------+-------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+mysql> DESCRIBE categories;
++-------+-------------+------+-----+---------+-------+
+| Field | Type        | Null | Key | Default | Extra |
++-------+-------------+------+-----+---------+-------+
+| id    | char(3)     | NO   | PRI | NULL    |       |
+| name  | varchar(20) | NO   |     | NULL    |       |
++-------+-------------+------+-----+---------+-------+
+2 rows in set (0.01 sec)
+
+mysql> DESCRIBE comments;
++------------+--------------+------+-----+---------+-------+
+| Field      | Type         | Null | Key | Default | Extra |
++------------+--------------+------+-----+---------+-------+
+| user_id    | char(4)      | NO   | MUL | NULL    |       |
+| article_id | char(3)      | NO   | MUL | NULL    |       |
+| comment    | varchar(200) | YES  |     | NULL    |       |
+| id         | char(7)      | NO   | PRI | NULL    |       |
++------------+--------------+------+-----+---------+-------+
+4 rows in set (0.01 sec)
+
+
+****************** inserting data ******************
+mysql> INSERT INTO user
+    -> VALUES ('u001', 'user1', 'admin'),
+    ->        ('u002', 'user2', 'normal'),
+    ->        ('u003', 'user3', 'normal'),
+    ->        ('u004', 'user4', 'normal'),
+    ->        ('u005', 'user5', 'normal');
+
+mysql> select * from user;
++------+-------+--------+
+| id   | name  | role   |
++------+-------+--------+
+| u001 | user1 | admin  |
+| u002 | user2 | normal |
+| u003 | user3 | normal |
+| u004 | user4 | normal |
+| u005 | user5 | normal |
++------+-------+--------+
+
+
+mysql> INSERT INTO categories
+    -> VALUES ('c01', 'science'),
+    -> ('c02', 'fashion'),
+    -> ('c03', 'ruby'),
+    -> ('c04', 'entertainment'),
+    -> ('c05', 'education');
+
+
+mysql> select * from categories;
++-----+---------------+
+| id  | name          |
++-----+---------------+
+| c01 | science       |
+| c02 | fashion       |
+| c03 | ruby          |
+| c04 | entertainment |
+| c05 | education     |
++-----+---------------+
+
+
+mysql> INSERT INTO articles
+    -> VALUES ('a01', 'science - boon or curse', 'u002', 'c01'),
+    -> ('a02', 'new fashion trendzz', 'u003', 'c02'),
+    -> ('a03', 'advancement in ruby', 'u003', 'c03'),
+    -> ('a04', 'fashion show in paris', 'u003', 'c02'),
+    -> ('a05', 'professional courses', 'u005', 'c05');
+
+mysql> ALTER TABLE articles
+       ADD COLUMN description MEDIUMTEXT NOT NULL;
+
+mysql> UPDATE articles SET description = 'some article descriptions....';
+
+mysql> select * from articles;
++-----+-------------------------+--------+-------------+-------------------------------+
+| id  | subject                 | author | category_id | description                   |
++-----+-------------------------+--------+-------------+-------------------------------+
+| a01 | science - boon or curse | u002   | c01         | some article descriptions.... |
+| a02 | new fashion trendzz     | u003   | c02         | some article descriptions.... |
+| a03 | advancement in ruby     | u003   | c03         | some article descriptions.... |
+| a04 | fashion show in paris   | u003   | c02         | some article descriptions.... |
+| a05 | professional courses    | u005   | c05         | some article descriptions.... |
++-----+-------------------------+--------+-------------+-------------------------------+
+5 rows in set (0.00 sec)
+
+mysql> INSERT INTO comments
+    -> VALUES ('com0001', 'u003', 'a03', 'nice article buddy...'),
+    ->        ('com0002', 'u001', 'a02', 'agree to this...'),
+    ->        ('com0003', 'u003', 'a02', 'thanks for the post...'),
+    ->        ('com0004', 'u003', 'a03', 'some new additions are done also...'),
+    ->        ('com0005', 'u005', 'a03', 'good article buddy...'),
+    ->        ('com0006', 'u003', 'a02', 'i am gonna follow these...'),
+    ->        ('com0007', 'u005', 'a04', 'awesome work...');
+
+mysql> select * from comments;
++---------+---------+------------+-------------------------------------+
+| id      | user_id | article_id | comment                             |
++---------+---------+------------+-------------------------------------+
+| com0001 | u003    | a03        | nice article buddy...               |
+| com0002 | u001    | a02        | agree to this...                    |
+| com0003 | u003    | a02        | thanks for the post...              |
+| com0004 | u003    | a03        | some new additions are done also... |
+| com0005 | u005    | a03        | good article buddy...               |
+| com0006 | u003    | a02        | i am gonna follow these...          |
+| com0007 | u005    | a04        | awesome work...                     |
++---------+---------+------------+-------------------------------------+
+
+
+****************** Queries ******************
+Ques1 - select all articles whose author's name is user3 (Do this exercise using variable also).
+SELECT * FROM articles
+WHERE author = (
+  SELECT id
+  FROM user
+  WHERE name = 'user3');
+
+OUTPUT -
++-----+-----------------------+--------+-------------+-------------------------------+
+| id  | subject               | author | category_id | description                   |
++-----+-----------------------+--------+-------------+-------------------------------+
+| a02 | new fashion trendzz   | u003   | c02         | some article descriptions.... |
+| a03 | advancement in ruby   | u003   | c03         | some article descriptions.... |
+| a04 | fashion show in paris | u003   | c02         | some article descriptions.... |
++-----+-----------------------+--------+-------------+-------------------------------+
+
+********************With using variable -
+
+mysql> SELECT @id := id FROM user WHERE name  = 'user3';
++-----------+
+| @id := id |
++-----------+
+| u003      |
++-----------+
+1 row in set (0.00 sec)
+
+mysql> SELECT * FROM articles WHERE author = @id;
++-----+-----------------------+--------+-------------+-------------------------------+
+| id  | subject               | author | category_id | description                   |
++-----+-----------------------+--------+-------------+-------------------------------+
+| a02 | new fashion trendzz   | u003   | c02         | some article descriptions.... |
+| a03 | advancement in ruby   | u003   | c03         | some article descriptions.... |
+| a04 | fashion show in paris | u003   | c02         | some article descriptions.... |
++-----+-----------------------+--------+-------------+-------------------------------+
+3 rows in set (0.01 sec)
+
+
+****************** Question 2 ******************
+
+Ques2 - For all the articles being selected above, select all the articles and also the comments associated with those articles in a single query (Do this using subquery also)
+
+mysql> SELECT articles.id, subject, description, comment
+    -> FROM articles, comments, user
+    -> WHERE user.id = articles.author AND user.name = 'user3' AND articles.id = comments.article_id;
++-----+-----------------------+-------------------------------+-------------------------------------+
+| id  | subject               | description                   | comment                             |
++-----+-----------------------+-------------------------------+-------------------------------------+
+| a02 | new fashion trendzz   | some article descriptions.... | agree to this...                    |
+| a02 | new fashion trendzz   | some article descriptions.... | thanks for the post...              |
+| a02 | new fashion trendzz   | some article descriptions.... | i am gonna follow these...          |
+| a03 | advancement in ruby   | some article descriptions.... | nice article buddy...               |
+| a03 | advancement in ruby   | some article descriptions.... | some new additions are done also... |
+| a03 | advancement in ruby   | some article descriptions.... | good article buddy...               |
+| a04 | fashion show in paris | some article descriptions.... | awesome work...                     |
++-----+-----------------------+-------------------------------+-------------------------------------+
+
+With subquery ->
+SELECT articles.id, subject, description, comment
+FROM articles, comments
+WHERE articles.id = comments.article_id AND author = (
+  SELECT id
+  FROM user
+  WHERE name = 'user3');
+
+OUTPUT -
++-----+-----------------------+-------------------------------+-------------------------------------+
+| id  | subject               | description                   | comment                             |
++-----+-----------------------+-------------------------------+-------------------------------------+
+| a02 | new fashion trendzz   | some article descriptions.... | agree to this...                    |
+| a02 | new fashion trendzz   | some article descriptions.... | thanks for the post...              |
+| a02 | new fashion trendzz   | some article descriptions.... | i am gonna follow these...          |
+| a03 | advancement in ruby   | some article descriptions.... | nice article buddy...               |
+| a03 | advancement in ruby   | some article descriptions.... | some new additions are done also... |
+| a03 | advancement in ruby   | some article descriptions.... | good article buddy...               |
+| a04 | fashion show in paris | some article descriptions.... | awesome work...                     |
++-----+-----------------------+-------------------------------+-------------------------------------+
+
+
+****************** question 3 ******************
+
+Ques 3 - Write a query to select all articles which do not have any comments (Do using subquery also)
+mysql> SELECT *
+    -> FROM articles
+    -> WHERE articles.id NOT IN (
+    ->   SELECT article_id
+    ->   FROM comments);
++-----+-------------------------+--------+-------------+-------------------------------+
+| id  | subject                 | author | category_id | description                   |
++-----+-------------------------+--------+-------------+-------------------------------+
+| a01 | science - boon or curse | u002   | c01         | some article descriptions.... |
+| a05 | professional courses    | u005   | c05         | some article descriptions.... |
++-----+-------------------------+--------+-------------+-------------------------------+
+
+Without subquery ->
+
+mysql> SELECT articles.id, subject, description
+    -> FROM articles LEFT JOIN comments
+    -> ON articles.id = comments.article_id
+    -> WHERE comments.id IS NULL;
++-----+-------------------------+-------------------------------+
+| id  | subject                 | description                   |
++-----+-------------------------+-------------------------------+
+| a01 | science - boon or curse | some article descriptions.... |
+| a05 | professional courses    | some article descriptions.... |
++-----+-------------------------+-------------------------------+
+
+
+****************** question 4 ******************
+
+Ques 4 - Write a query to select article which has maximum comments
+SELECT article_id
+FROM comments
+GROUP BY article_id
+HAVING COUNT(*) = (
+  SELECT max(comment_count)
+  FROM (
+    SELECT count(*) AS comment_count
+    FROM comments
+    GROUP BY article_id
+  ) AS max_comment
+);
+
++------------+
+| article_id |
++------------+
+| a02        |
+| a03        |
++------------+
+
+****************** question 5 ******************
+
+
+Ques 5 - Write a query to select article which does not have more than one comment by the same user ( do this using left join and group by )
+
+SELECT *
+FROM articles
+WHERE id = (
+  SELECT article_id
+  FROM comments
+  GROUP BY article_id
+  HAVING COUNT(*) = COUNT(DISTINCT user_id));
+
++-----+-----------------------+--------+-------------+-------------------------------+
+| id  | subject               | author | category_id | description                   |
++-----+-----------------------+--------+-------------+-------------------------------+
+| a04 | fashion show in paris | u003   | c02         | some article descriptions.... |
++-----+-----------------------+--------+-------------+-------------------------------+
+
