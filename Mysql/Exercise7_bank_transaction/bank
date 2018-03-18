@@ -1,0 +1,118 @@
+CREATE DATABASE bank;
+
+USE bank;
+
+*************** Creating tables ******************
+CREATE TABLE users
+( id INT AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(20) NOT NULL,
+  email VARCHAR(40) NOT NULL UNIQUE,
+  account_no CHAR(10) NOT NULL UNIQUE);
+Query OK, 0 rows affected (0.07 sec)
+
+CREATE TABLE accounts
+( id INT AUTO_INCREMENT PRIMARY KEY,
+  account_no CHAR(10),
+  balance DECIMAL(9,2),
+  FOREIGN KEY(account_no) REFERENCES users(account_no));
+Query OK, 0 rows affected (0.03 sec)
+
+
+*************** Inserting data ******************
+INSERT INTO users(name, email, account_no)
+VALUES('user1', 'user1@gmail.com', '1122334455'),
+('user2', 'user2gmail.com', '1122334466'),
+('user3', 'user3gmail.com', '1122334477'),
+('user4', 'user4gmail.com', '1122334488'),
+('user5', 'user5gmail.com', '1122334499');
+
+mysql> select * from users;
++----+-------+-----------------+------------+
+| id | name  | email           | account_no |
++----+-------+-----------------+------------+
+|  1 | user1 | user1@gmail.com | 1122334455 |
+|  2 | user2 | user2gmail.com  | 1122334466 |
+|  3 | user3 | user3gmail.com  | 1122334477 |
+|  4 | user4 | user4gmail.com  | 1122334488 |
+|  5 | user5 | user5gmail.com  | 1122334499 |
++----+-------+-----------------+------------+
+
+INSERT INTO accounts(account_no, balance)
+VALUES('1122334455', 0),
+('1122334466', 1000),
+('1122334499', 300);
+
+mysql> select * from accounts;
++----+------------+---------+
+| id | account_no | balance |
++----+------------+---------+
+|  1 | 1122334455 |    0.00 |
+|  2 | 1122334466 | 1000.00 |
+|  3 | 1122334499 |  300.00 |
++----+------------+---------+
+
+*************** Queries ******************
+Insert some raw data and do the following queries using mysql transaction statement:
+
+i) userA is depositing 1000 Rs. his account
+START TRANSACTION;
+SELECT @acc_no := account_no
+FROM users
+WHERE name = 'user1';
+UPDATE accounts
+SET balance = balance + 1000
+WHERE account_no = @acc_no;
+COMMIT;
+
+mysql> select * from accounts;
++----+------------+---------+
+| id | account_no | balance |
++----+------------+---------+
+|  1 | 1122334455 | 1000.00 |
+|  2 | 1122334466 | 1000.00 |
+|  3 | 1122334499 |  300.00 |
++----+------------+---------+
+
+*************** Query 2 ******************
+ii) userA is withdrawing 500 Rs.
+START TRANSACTION;
+UPDATE accounts
+SET balance = balance - 500
+WHERE account_no = @acc_no;
+COMMIT;
+
+mysql> select * from accounts;
++----+------------+---------+
+| id | account_no | balance |
++----+------------+---------+
+|  1 | 1122334455 |  500.00 |
+|  2 | 1122334466 | 1000.00 |
+|  3 | 1122334499 |  300.00 |
++----+------------+---------+
+
+*************** Query 3 ******************
+
+iii) userA is transferring 200 Rs to userB's account
+START TRANSACTION;
+UPDATE accounts
+SET balance = balance - 200
+WHERE account_no = (
+SELECT account_no
+FROM users
+WHERE name = 'user1');
+UPDATE accounts
+SET balance = balance + 200
+WHERE account_no = (
+SELECT account_no
+FROM users
+WHERE name = 'user2');
+COMMIT;
+
+mysql> select * from accounts;
++----+------------+---------+
+| id | account_no | balance |
++----+------------+---------+
+|  1 | 1122334455 |  300.00 |
+|  2 | 1122334466 | 1200.00 |
+|  3 | 1122334499 |  300.00 |
++----+------------+---------+
