@@ -1,0 +1,72 @@
+Q1 -  What do different columns in the output of EXPLAIN mean? What possible values can those have? What is the meaning of those values?
+
+Answer - The EXPLAIN statement provides an analysis of a specified SELECT statement.It returns the results that provide details about how the SELECT statement will be executed. From these details, we can determine whether indexes are being used effectively, whether their should add new indexes, or whether we should specify the order of how tables are joined together.
+
+The different columns in EXPLAIN's result signifies-
+1 - id = An identifier for the SELECT statement that is being analyzed. If the statement doesn’t include subqueries or unions, the id value is 1 for each row.
+
+2 - select_type = The type of SELECT statement.
+Possible values -
+    SIMPLE - value indicates that the statement doesn’t include subqueries or unions.
+    PRIMARY - Outermost SELECT query in a join
+    UNION - the SELECT is the second or later statement of a UNION
+    DEPENDENT UNION - the second or later SELECT of a UNION is dependent on an outer query
+    UNION RESULT - the SELECT is a result of a UNION
+    DERIVED - Derived table SELECT (subquery in FROM clause)
+    SUBQUERY - First SELECT in a subquery
+    DEPENDENT SUBQUERY - Subquery which is dependent upon on outer query
+    UNCACHEABLE SUBQUERY - Subquery which is not cacheable
+
+3 - table - The table being analyzed by the row.
+Possible values -
+ i)  the column displays the alias ,if an alias is used for the table name.
+ ii) else the actual table name.
+
+ 4 - type - The method used to match rows in different tables when the SELECT statement joins two or more tables.
+Possible values -
+    ALL - MySQL conducts a full table scan for each combination of rows from the current table and the joined table.
+    system  -  The table has only one row. This is a special case of the const join type.
+
+    const  -  The table has at most one matching row, which is read at the start of the query. Because there is only one
+            row, values from the column in this row can be regarded as constants by the rest of the optimizer.const is used
+            when you compare all parts of a PRIMARY KEY or UNIQUE index to constant values.
+
+    eq_ref  -  One row is read from this table for each combination of rows from the previous tables. Other than the system
+             and const types, this is the best possible join type. It is used when all parts of an index are used by the join and the index is a PRIMARY KEY or UNIQUE NOT NULL index.
+
+    ref  -  All rows with matching index values are read from this table for each combination of rows from the previous
+          tables.
+
+    fulltext  -  The join is performed using a FULLTEXT index.
+
+    index_merge  -  This join type indicates that the Index Merge optimization is used. In this case, the key column in the
+                  output row contains a list of indexes used, and key_len contains a list of the longest key parts for the indexes used.
+
+    unique_subquery  -  This type replaces ref for some IN subqueries. unique_subquery is just an index lookup function that
+                      replaces the subquery completely for better efficiency.
+
+    index_subquery  -  This join type is similar to unique_subquery. It replaces IN subqueries, but it works for nonunique
+                    indexes.
+
+    range  -  Only rows that are in a given range are retrieved, using an index to select the rows. The key column in the
+            output row indicates which index is used. The key_len contains the longest key part that was used. The ref column is NULL for this type.
+
+    index  -  The index join type is the same as ALL, except that the index tree is scanned.
+
+5 - possible_keys = The indexes that MySQL can use to find rows.
+possible values -
+  NULL -  no indexes can be used.
+6 - key = The key column indicates the key (index) that MySQL actually decided to use. If MySQL decides to use one of the possible_keys indexes to look up rows, that index is listed as the key value.
+NULL - no indx can be used.
+
+7 - key_len = The key_len column indicates the length of the key that MySQL decided to use. The value of key_len enables you to determine how many parts of a multiple-part key MySQL actually uses. If the key column says NULL, the key_len column also says NULL.
+
+8 - ref = The ref column shows which columns or constants are compared to the index named in the key column to select rows from the table.
+possible value -
+func - the value used is the result of some function.
+
+9 - rows = The rows column indicates the number of rows MySQL believes it must examine to execute the query.
+
+10  - The filtered column indicates an estimated percentage of table rows that will be filtered by the table condition. That is, rows shows the estimated number of rows examined and rows × filtered / 100 shows the number of rows that will be joined with previous tables.
+
+11 - Extra = This column contains additional information about how MySQL resolves the query.

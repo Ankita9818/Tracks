@@ -1,0 +1,54 @@
+Q4:
+4.1 EXPLAIN a SELECT query against one of your databases which employs an INNER JOIN between two tables. What does the output look like? What does the values under different columns mean? Do you get only one row in EXPLAIN's output?
+
+ANswer - Working on database blogsdb -
+=> select all articles which do not have any comments
+
+mysql> EXPLAIN SELECT articles.id, subject, description
+    -> FROM articles LEFT JOIN comments
+    -> ON articles.id = comments.article_id
+    -> WHERE comments.id IS NULL;
++----+-------------+----------+------------+------+---------------+------------+---------+---------------------+------+----------+--------------------------------------+
+| id | select_type | table    | partitions | type | possible_keys | key        | key_len | ref                 | rows | filtered | Extra                                |
++----+-------------+----------+------------+------+---------------+------------+---------+---------------------+------+----------+--------------------------------------+
+|  1 | SIMPLE      | articles | NULL       | ALL  | NULL          | NULL       | NULL    | NULL                |    5 |   100.00 | NULL                                 |
+|  1 | SIMPLE      | comments | NULL       | ref  | article_id    | article_id | 9       | blogsdb.articles.id |    2 |    12.50 | Using where; Not exists; Using index |
++----+-------------+----------+------------+------+---------------+------------+---------+---------------------+------+----------+--------------------------------------+
+
+id  - 1 - As SELECT statement doesnt includes unions or subqueries.
+select_type = SIMPLE - value indicates that the statement doesn’t include subqueries or unions.
+table  - table names
+type -> ref  -  All rows with matching index values are read from this table for each combination of rows from the previous
+          tables.
+        ALL  -  MySQL conducts a full table scan for each combination of rows from the current table and the joined table.
+possible_keys - this column shows which indexes are used for searching on that table.
+key - the key actually used while querying the data table.
+key_len : Shows the total values in the key used. This can be an indication if we are using long keys which require large memory for storage.
+ref - The ref column shows which columns or constants are compared to the index named in the key column to select rows
+         from the table.
+rows - The rows column indicates the number of rows MySQL believes it must examine to execute the query.
+filtered - The filtered column indicates an estimated percentage of table rows that will be filtered by the table condition.
+Extra - Additional information about the query.
+ Using index -  means the query can be executed by referring only to the index, the value  is displayed.
+ Using where - value indicates that the WHERE clause will be used to restrict which rows to retrieve.
+
+*********************************************************************************************************************
+
+4.2 Form the same select query in above question using a subquery instead of a JOIN. What does the EXPLAIN output look like now? Which query is better and why?
+
+ANswer -
+
+mysql> EXPLAIN   SELECT *
+    ->   FROM articles
+    ->   WHERE articles.id NOT IN (
+    ->     SELECT article_id
+    ->     FROM comments);
++----+-------------+----------+------------+-------+---------------+------------+---------+------+------+----------+-------------+
+| id | select_type | table    | partitions | type  | possible_keys | key        | key_len | ref  | rows | filtered | Extra       |
++----+-------------+----------+------------+-------+---------------+------------+---------+------+------+----------+-------------+
+|  1 | PRIMARY     | articles | NULL       | ALL   | NULL          | NULL       | NULL    | NULL |    5 |   100.00 | Using where |
+|  2 | SUBQUERY    | comments | NULL       | index | article_id    | article_id | 9       | NULL |    8 |   100.00 | Using index |
++----+-------------+----------+------------+-------+---------------+------------+---------+------+------+----------+-------------+
+
+
+Left join query is better than the subquery as the the no of rows to search for the query in left join is less than that in the sub query so the the search result will be faster in that.
