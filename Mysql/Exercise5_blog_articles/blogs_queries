@@ -178,7 +178,7 @@ mysql> select * from comments;
 
 
 ****************** Queries ******************
-Ques1 - select all articles whose author's name is user3 (Do this exercise using variable also).
+Ques2 - select all articles whose author's name is user3 (Do this exercise using variable also).
 SELECT * FROM articles
 WHERE author = (
   SELECT id
@@ -227,13 +227,14 @@ mysql> SELECT *
 +-----+-----------------------+--------+-------------+-------------------------------+------+-------+--------+
 
 
-****************** Question 2 ********************************************************
+**************************************** Question 3 ********************************************************
 
-Ques2 - For all the articles being selected above, select all the articles and also the comments associated with those articles in a single query (Do this using subquery also)
+Ques3 - For all the articles being selected above, select all the articles and also the comments associated with those articles in a single query (Do this using subquery also)
 
-mysql> SELECT articles.id, subject, description, comment
-    -> FROM articles, comments, user
-    -> WHERE user.id = articles.author AND user.name = 'user3' AND articles.id = comments.article_id;
+SELECT articles.id, subject, description, comment
+FROM user JOIN articles ON (user.id = articles.author) LEFT JOIN comments ON (articles.id = comments.article_id)
+WHERE user.name = 'user3';
+
 +-----+-----------------------+-------------------------------+-------------------------------------+
 | id  | subject               | description                   | comment                             |
 +-----+-----------------------+-------------------------------+-------------------------------------+
@@ -247,9 +248,10 @@ mysql> SELECT articles.id, subject, description, comment
 +-----+-----------------------+-------------------------------+-------------------------------------+
 
 With subquery ->
+
 SELECT articles.id, subject, description, comment
-FROM articles, comments
-WHERE articles.id = comments.article_id AND author = (
+FROM articles LEFT JOIN comments ON (articles.id = comments.article_id)
+WHERE author = (
   SELECT id
   FROM user
   WHERE name = 'user3');
@@ -267,10 +269,9 @@ OUTPUT -
 | a04 | fashion show in paris | some article descriptions.... | awesome work...                     |
 +-----+-----------------------+-------------------------------+-------------------------------------+
 
+**************************************************** question 4 *******************************************************
 
-****************** question 3 ******************
-
-Ques 3 - Write a query to select all articles which do not have any comments (Do using subquery also)
+Ques 4 - Write a query to select all articles which do not have any comments (Do using subquery also)
 mysql> SELECT *
     -> FROM articles
     -> WHERE articles.id NOT IN (
@@ -297,9 +298,10 @@ mysql> SELECT articles.id, subject, description
 +-----+-------------------------+-------------------------------+
 
 
-****************** question 4 ******************
+**************************************************** question 5 *******************************************************
 
-Ques 4 - Write a query to select article which has maximum comments
+Ques 5 - Write a query to select article which has maximum comments
+
 mysql> SELECT articles.id, articles.subject, articles.description, COUNT(comments.id) AS total_comments
     -> FROM articles, comments
     -> WHERE articles.id = comments.article_id
@@ -312,10 +314,10 @@ mysql> SELECT articles.id, articles.subject, articles.description, COUNT(comment
 +-----+---------------------+-------------------------------+----------------+
 
 
-****************** question 5 ******************
+**************************************************** question 6 *******************************************************
 
 
-Ques 5 - Write a query to select article which does not have more than one comment by the same user ( do this using left join and group by )
+Ques 6 - Write a query to select article which does not have more than one comment by the same user ( do this using left join and group by )
 
 SELECT *
 FROM articles
