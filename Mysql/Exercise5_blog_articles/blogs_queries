@@ -173,6 +173,7 @@ mysql> select * from comments;
 | com0005 | u005    | a03        | good article buddy...               |
 | com0006 | u003    | a02        | i am gonna follow these...          |
 | com0007 | u005    | a04        | awesome work...                     |
+| com0008 | u005    | a03        | ruby is gem buddy...                |
 +---------+---------+------------+-------------------------------------+
 
 
@@ -193,7 +194,7 @@ OUTPUT -
 | a04 | fashion show in paris | u003   | c02         | some article descriptions.... |
 +-----+-----------------------+--------+-------------+-------------------------------+
 
-********************With using variable -
+************************** With using variable - ********************
 
 mysql> SELECT @id := id FROM user WHERE name  = 'user3';
 +-----------+
@@ -213,8 +214,20 @@ mysql> SELECT * FROM articles WHERE author = @id;
 +-----+-----------------------+--------+-------------+-------------------------------+
 3 rows in set (0.01 sec)
 
+************************************ Using join **************************************
+mysql> SELECT *
+    -> FROM articles JOIN user ON articles.author = user.id
+    -> WHERE user.name = 'user3';
++-----+-----------------------+--------+-------------+-------------------------------+------+-------+--------+
+| id  | subject               | author | category_id | description                   | id   | name  | role   |
++-----+-----------------------+--------+-------------+-------------------------------+------+-------+--------+
+| a02 | new fashion trendzz   | u003   | c02         | some article descriptions.... | u003 | user3 | normal |
+| a03 | advancement in ruby   | u003   | c03         | some article descriptions.... | u003 | user3 | normal |
+| a04 | fashion show in paris | u003   | c02         | some article descriptions.... | u003 | user3 | normal |
++-----+-----------------------+--------+-------------+-------------------------------+------+-------+--------+
 
-****************** Question 2 ******************
+
+****************** Question 2 ********************************************************
 
 Ques2 - For all the articles being selected above, select all the articles and also the comments associated with those articles in a single query (Do this using subquery also)
 
@@ -287,24 +300,17 @@ mysql> SELECT articles.id, subject, description
 ****************** question 4 ******************
 
 Ques 4 - Write a query to select article which has maximum comments
-SELECT article_id
-FROM comments
-GROUP BY article_id
-HAVING COUNT(*) = (
-  SELECT max(comment_count)
-  FROM (
-    SELECT count(*) AS comment_count
-    FROM comments
-    GROUP BY article_id
-  ) AS max_comment
-);
+mysql> SELECT articles.id, articles.subject, articles.description, COUNT(comments.id) AS total_comments
+    -> FROM articles, comments
+    -> WHERE articles.id = comments.article_id
+    -> GROUP BY comments.article_id
+    -> ORDER BY total_comments DESC LIMIT 1;
++-----+---------------------+-------------------------------+----------------+
+| id  | subject             | description                   | total_comments |
++-----+---------------------+-------------------------------+----------------+
+| a03 | advancement in ruby | some article descriptions.... |              4 |
++-----+---------------------+-------------------------------+----------------+
 
-+------------+
-| article_id |
-+------------+
-| a02        |
-| a03        |
-+------------+
 
 ****************** question 5 ******************
 
