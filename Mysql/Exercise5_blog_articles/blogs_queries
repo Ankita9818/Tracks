@@ -319,17 +319,16 @@ mysql> SELECT articles.id, articles.subject, articles.description, COUNT(comment
 
 Ques 6 - Write a query to select article which does not have more than one comment by the same user ( do this using left join and group by )
 
-SELECT *
-FROM articles
-WHERE id = (
-  SELECT article_id
-  FROM comments
-  GROUP BY article_id
-  HAVING COUNT(*) = COUNT(DISTINCT user_id));
+SELECT articles.*
+FROM articles LEFT JOIN comments ON articles.id = comments.article_id
+GROUP BY articles.id
+HAVING COUNT(DISTINCT user_id) = COUNT(*) OR COUNT(user_id) = 0;
 
-+-----+-----------------------+--------+-------------+-------------------------------+
-| id  | subject               | author | category_id | description                   |
-+-----+-----------------------+--------+-------------+-------------------------------+
-| a04 | fashion show in paris | u003   | c02         | some article descriptions.... |
-+-----+-----------------------+--------+-------------+-------------------------------+
++-----+-------------------------+--------+-------------+-------------------------------+
+| id  | subject                 | author | category_id | description                   |
++-----+-------------------------+--------+-------------+-------------------------------+
+| a01 | science - boon or curse | u002   | c01         | some article descriptions.... |
+| a04 | fashion show in paris   | u003   | c02         | some article descriptions.... |
+| a05 | professional courses    | u005   | c05         | some article descriptions.... |
++-----+-------------------------+--------+-------------+-------------------------------+
 
