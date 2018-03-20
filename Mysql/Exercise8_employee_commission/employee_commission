@@ -54,13 +54,13 @@ SELECT employees.name, SUM(commission) AS highest_commission
 FROM commissions INNER JOIN employees
 ON commissions.employee_id = employees.id
 GROUP BY employees.id
-ORDER BY total_commissions DESC LIMIT 1;
+ORDER BY highest_commission DESC LIMIT 1;
 
-+-------------+-------------------+
++-------------+--------------------+
 | name        | highest_commission |
-+-------------+-------------------+
-| Chris Gayle |              9000 |
-+-------------+-------------------+
++-------------+--------------------+
+| Chris Gayle |               9000 |
++-------------+--------------------+
 
 ************ Query 2 *********************
 ii. Find employee with 4th Highest salary from employee table.
