@@ -1,0 +1,139 @@
+CREATE DATABASE color_pallette;
+
+USE color_pallette;
+
+CREATE TABLE colors
+( id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(30) NOT NULL,
+  density DECIMAL(4,2) NOT NULL
+);
+
+mysql> ALTER TABLE colors
+    -> AUTO_INCREMENT = 10;
+
+mysql> INSERT INTO colors(name, density)
+    -> VALUES ('Red', 0.20),
+    -> ('Green', 0.30),
+    -> ('Blue', 0.40),
+    -> ('Yellow', 0.20),
+    -> ('Pink', 0.30),
+    -> ('Cyan', 0.40),
+    -> ('White', 0.28);
+
+CREATE TABLE mixtures
+( id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  parent1_id INT UNSIGNED NOT NULL,
+  parent2_id INT UNSIGNED NOT NULL,
+  mix_id INT UNSIGNED NOT NULL,
+  mix_density DECIMAL(4,2) NOT NULL,
+  parent1_perc INT UNSIGNED NOT NULL,
+  parent2_perc INT UNSIGNED NOT NULL,
+  FOREIGN KEY(parent1_id) REFERENCES colors(id),
+  FOREIGN KEY(parent2_id) REFERENCES colors(id),
+  FOREIGN KEY(mix_id) REFERENCES colors(id)
+);
+
+
+INSERT INTO mixtures(parent1_id, parent2_id, mix_id, mix_density, parent1_perc, parent2_perc)
+VALUES (10, 11, 13, 0.6, 30, 70),
+(10, 12, 14, 0.5, 50, 50),
+(11, 12, 15, 0.75, 40, 60),
+(10, 13, 16, 0.28, 80, 20);
+
+************************************ Ques 1 ***********************************
+1. Find the colors that can be clubbed with 'Red' and also name the resulting color
+
+SELECT parent2.name AS combine_with, result_table.name AS resulting_color
+FROM colors AS parent2, colors AS result_table, mixtures
+WHERE parent2.id = mixtures.parent2_id AND result_table.id = mixtures.mix_id AND mixtures.parent1_id = (
+  SELECT id
+  FROM colors
+  WHERE name = 'Red');
+
++--------------+-----------------+
+| combine_with | resulting_color |
++--------------+-----------------+
+| Green        | Yellow          |
+| Blue         | Pink            |
+| Yellow       | White           |
++--------------+-----------------+
+
+************************************ Ques 2 ***********************************
+2. Find mixtures that can be formed without 'Red'
+
+SELECT @id_for_red := id
+FROM colors
+WHERE name = 'Red';
+SELECT colors.name
+FROM colors
+WHERE id = (
+  SELECT mix_id
+  FROM mixtures
+  WHERE parent1_id <> @id_for_red AND parent1_id <> @id_for_red
+);
+
+  *********************** Alternate query ***************************
+
+SELECT mix.name
+FROM colors AS mix, mixtures, colors AS parent
+WHERE parent.id <> parent1_id AND parent.id <> parent2_id
+AND parent.name = 'Red' AND mix_id = mix.id;
+
++------+
+| name |
++------+
+| Cyan |
++------+
+
+************************************ Ques 3 ***********************************
+3. Find the mixtures that have one common parent
+
+SELECT parent.name AS parent_name, GROUP_CONCAT(mix.name SEPARATOR ' & ') AS 'possible mixture'
+FROM colors AS parent, mixtures AS m, colors AS mix
+WHERE (parent.id = m.parent1_id OR parent.id = m.parent2_id) AND mix.id = mix_id
+GROUP BY parent_name
+ORDER BY COUNT(*) DESC;
++-------------+-----------------------+
+| parent_name | possible mixture      |
++-------------+-----------------------+
+| Red         | Yellow & White & Pink |
+| Blue        | Pink & Cyan           |
+| Green       | Cyan & Yellow         |
+| Yellow      | White                 |
++-------------+-----------------------+
+
+************************************ Ques 4 ***********************************
+4. Find parent colors(as a couple) that give mix colors with density higher than the color density originally
+
+SELECT CONCAT(parent1_id ,' & ', parent2_id) AS 'parent colors', mix_id, mix_density, density AS 'original density'
+FROM mixtures, colors
+WHERE colors.id = mix_id AND mix_density > density;
+
++---------------+--------+-------------+------------------+
+| parent colors | mix_id | mix_density | original density |
++---------------+--------+-------------+------------------+
+| 10 & 11       |     13 |         0.6 |             0.20 |
+| 10 & 12       |     14 |         0.5 |             0.30 |
+| 11 & 12       |     15 |        0.75 |             0.40 |
++---------------+--------+-------------+------------------+
+
+
+************************************ Ques 5 ***********************************
+
+5. calculate the total amount of color 'Red'(in kgs) needed to make a 1kg mix each for its possible mixtures(yellow,pink..)
+SELECT sum(color_req) AS amount
+FROM (
+  SELECT (parent1_perc / 100) AS color_req
+  FROM mixtures
+  WHERE parent1_id = @id_for_red
+  UNION
+  SELECT (parent2_perc / 100) AS color_req
+  FROM mixtures
+  WHERE parent2_id = @id_for_red
+)AS total_color_required;
+
++--------+
+| amount |
++--------+
+| 1.6000 |
++--------+
