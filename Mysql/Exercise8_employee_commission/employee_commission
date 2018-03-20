@@ -96,9 +96,8 @@ iv. Find employees getting commission more than 3000
 
   SELECT GROUP_CONCAT(employees.name ORDER BY employees.name) AS 'Employees getting commission > 3000', commission
   FROM commissions, employees
-  WHERE commissions.employee_id = employees.id
-  GROUP BY commission
-  HAVING commission > 3000;
+  WHERE commissions.employee_id = employees.id AND commission > 3000
+  GROUP BY commission;
 
 +-------------------------------------+------------+
 | Employees getting commission > 3000 | commission |
