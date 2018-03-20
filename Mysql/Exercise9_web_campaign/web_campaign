@@ -1,0 +1,331 @@
+mysql> CREATE DATABASE web_campaign;
+Query OK, 1 row affected (0.01 sec)
+
+mysql> USE web_campaign;
+Database changed
+
+mysql> CREATE TABLE user_census
+( id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  email VARCHAR(255) NOT NULL,
+  phone_no CHAR(7) NOT NULL,
+  city VARCHAR(255) NOT NULL);
+
+********** Importing file to table *************************
+mysql> LOAD DATA LOCAL INFILE '/Users/vinsol/Desktop/Tracks/Mysql/Exercise9_web_campaign/email_subscribers.txt' INTO TABLE user_census
+    -> FIELDS TERMINATED BY ','
+    -> ( email, phone_no, city);
+
+mysql> select * from user_census;
++-----+----------------------+----------+-----------+
+| id  | email                | phone_no | city      |
++-----+----------------------+----------+-----------+
+|   1 | 53e1228@hotmail.com  |  982958  |  Lucknow  |
+|   2 | 4e68a8c@hotmail.com  |  981077  |  Chennai  |
+|   3 | 7650b89@yahoo.com    |  983238  |  Kolkatta |
+|   4 | f9b1317@yahoo.com    |  981543  |  Delhi    |
+|   5 | fd6515f@me.com       |  982066  |  Delhi    |
+|   6 | b389f91@gmail.com    |  983429  |  Kolkatta |
+|   7 | 7b60d9f@me.com       |  983392  |  Mumbai   |
+|   8 | f415e11@yahoo.com    |  981653  |  Lucknow  |
+|   9 | cfd4611@hotmail.com  |  981939  |  Kolkatta |
+|  10 | 53ac4bc@yahoo.com    |  989347  |  Kolkatta |
+|  11 | 61f8cf9@me.com       |  986701  |  Kolkatta |
+|  12 | c311d98@gmail.com    |  981347  |  Chennai  |
+|  13 | 18e7b58@hotmail.com  |  985633  |  Mumbai   |
+|  14 | 53a8322@hotmail.com  |  981918  |  Delhi    |
+|  15 | a5b1ab3@me.com       |  981382  |  Chennai  |
+|  16 | 49b623d@hotmail.com  |  98334   |  Kolkatta |
+|  17 | 0ad8472@me.com       |  981728  |  Delhi    |
+|  18 | b80f399@yahoo.com    |  981714  |  Chennai  |
+|  19 | 50c510a@me.com       |  981057  |  Chennai  |
+|  20 | c3e1489@yahoo.com    |  983638  |  Kolkatta |
+|  21 | 80806d0@hotmail.com  |  984888  |  Chennai  |
+|  22 | b570c4f@gmail.com    |  982601  |  Mumbai   |
+|  23 | d5f5f1b@yahoo.com    |  982734  |  Chennai  |
+|  24 | 31d1aa8@yahoo.com    |  982912  |  Chennai  |
+|  25 | 91ef43b@me.com       |  987768  |  Chennai  |
+|  26 | 454be51@me.com       |  982114  |  Mumbai   |
+|  27 | 6d45dc4@hotmail.com  |  981714  |  Kolkatta |
+|  28 | b7d9d0d@gmail.com    |  988468  |  Lucknow  |
+|  29 | f29d15b@hotmail.com  |  982454  |  Mumbai   |
+|  30 | 9444b0a@hotmail.com  |  988315  |  Chennai  |
+|  31 | 93f8188@hotmail.com  |  982126  |  Delhi    |
+|  32 | 842624b@yahoo.com    |  988207  |  Kolkatta |
+|  33 | 614d167@yahoo.com    |  981328  |  Chennai  |
+|  34 | 42797f2@hotmail.com  |  983195  |  Chennai  |
+|  35 | 6cf38a4@me.com       |  982374  |  Delhi    |
+|  36 | 6f0c016@gmail.com    |  981263  |  Lucknow  |
+|  37 | e4dd79d@hotmail.com  |  982638  |  Lucknow  |
+|  38 | 7d0898a@me.com       |  981091  |  Kolkatta |
+|  39 | 5aa54fb@hotmail.com  |  985907  |  Chennai  |
+|  40 | 1ecee11@hotmail.com  |  981613  |  Chennai  |
+|  41 | 0467a86@hotmail.com  |  981977  |  Chennai  |
+|  42 | c0af6df@me.com       |  985553  |  Delhi    |
+|  43 | e3ec1dc@hotmail.com  |  981373  |  Mumbai   |
+|  44 | 19fe475@yahoo.com    |  982843  |  Delhi    |
+|  45 | 424d6ba@me.com       |  981770  |  Kolkatta |
+|  46 | 1b0f127@me.com       |  987980  |  Chennai  |
+|  47 | 18be937@me.com       |  981938  |  Lucknow  |
+|  48 | e0900ac@yahoo.com    |  982707  |  Kolkatta |
+|  49 | 0263273@gmail.com    |  981880  |  Lucknow  |
+|  50 | 87beea8@gmail.com    |  983259  |  Lucknow  |
+|  51 | fe6368b@gmail.com    |  982117  |  Mumbai   |
+|  52 | 74ebfd9@me.com       |  983031  |  Delhi    |
+|  53 | dee436e@gmail.com    |  982698  |  Mumbai   |
+|  54 | 6e58558@me.com       |  981329  |  Mumbai   |
+|  55 | d629b41@me.com       |  981742  |  Lucknow  |
+|  56 | ab25b4d@hotmail.com  |  983250  |  Lucknow  |
+|  57 | 10fae70@me.com       |  982167  |  Chennai  |
+|  58 | 70f7f38@yahoo.com    |  981804  |  Kolkatta |
+|  59 | 8d8761e@gmail.com    |  985886  |  Lucknow  |
+|  60 | 25a84c1@me.com       |  982033  |  Kolkatta |
+|  61 | de975af@hotmail.com  |  981778  |  Delhi    |
+|  62 | 4180926@hotmail.com  |  982042  |  Mumbai   |
+|  63 | 64cebcc@hotmail.com  |  982174  |  Kolkatta |
+|  64 | 7d0898a@gmail.com    |  988602  |  Chennai  |
+|  65 | 1092ab1@hotmail.com  |  981253  |  Lucknow  |
+|  66 | a68c673@yahoo.com    |  982157  |  Lucknow  |
+|  67 | 7face0c@me.com       |  982589  |  Mumbai   |
+|  68 | f9ac66a@yahoo.com    |  982820  |  Mumbai   |
+|  69 | e5ccd60@gmail.com    |  983043  |  Kolkatta |
+|  70 | ee38dd9@gmail.com    |  982407  |  Mumbai   |
+|  71 | 8515168@me.com       |  982835  |  Mumbai   |
+|  72 | 83fba63@me.com       |  987306  |  Delhi    |
+|  73 | 3f20fe7@yahoo.com    |  984584  |  Lucknow  |
+|  74 | b7a7b74@gmail.com    |  983220  |  Mumbai   |
+|  75 | 21b2cc5@gmail.com    |  981938  |  Delhi    |
+|  76 | 091b847@gmail.com    |  981300  |  Lucknow  |
+|  77 | 609d317@me.com       |  981825  |  Delhi    |
+|  78 | ff1a552@me.com       |  983150  |  Delhi    |
+|  79 | f156e42@hotmail.com  |  981453  |  Kolkatta |
+|  80 | 1d8c00a@gmail.com    |  981508  |  Kolkatta |
+|  81 | 2ae0548@yahoo.com    |  982230  |  Lucknow  |
+|  82 | 9f5601b@me.com       |  981050  |  Delhi    |
+|  83 | 4ca6549@gmail.com    |  981374  |  Mumbai   |
+|  84 | 43da815@gmail.com    |  982698  |  Chennai  |
+|  85 | fec38e7@hotmail.com  |  981132  |  Chennai  |
+|  86 | fa4adf3@gmail.com    |  982404  |  Delhi    |
+|  87 | 8589d9b@gmail.com    |  981732  |  Kolkatta |
+|  88 | 20618c4@hotmail.com  |  982450  |  Chennai  |
+|  89 | 87652ba@yahoo.com    |  983126  |  Delhi    |
+|  90 | 10273e1@yahoo.com    |  985199  |  Kolkatta |
+|  91 | 133e15c@hotmail.com  |  983088  |  Lucknow  |
+|  92 | 7da4feb@hotmail.com  |  981895  |  Chennai  |
+|  93 | a00f4a0@yahoo.com    |  981826  |  Mumbai   |
+|  94 | c86052c@yahoo.com    |  981068  |  Lucknow  |
+|  95 | fa54a21@yahoo.com    |  981944  |  Lucknow  |
+|  96 | 489cc21@yahoo.com    |  986192  |  Kolkatta |
+|  97 | 3f6f525@hotmail.com  |  982681  |  Kolkatta |
+|  98 | 2947764@me.com       |  981830  |  Chennai  |
+|  99 | 01433ed@me.com       |  981436  |  Chennai  |
+| 100 | 7ac9ff1@hotmail.com  |  983093  |  Chennai  |
+| 101 | 3695bdd@yahoo.com    |  982616  |  Kolkatta |
+| 102 | b06e572@yahoo.com    |  982806  |  Mumbai   |
+| 103 | f1f5881@me.com       |  981492  |  Delhi    |
+| 104 | da1ccbf@hotmail.com  |  982387  |  Mumbai   |
+| 105 | 5718b2b@me.com       |  982056  |  Chennai  |
+| 106 | 475db6e@gmail.com    |  988911  |  Delhi    |
+| 107 | a3afeab@hotmail.com  |  98621   |  Mumbai   |
+| 108 | 886384b@hotmail.com  |  981494  |  Kolkatta |
+| 109 | d04237a@hotmail.com  |  98616   |  Mumbai   |
+| 110 | 8cc2414@yahoo.com    |  989372  |  Lucknow  |
+| 111 | 7aaa062@yahoo.com    |  989018  |  Delhi    |
+| 112 | ad48df2@yahoo.com    |  983103  |  Chennai  |
+| 113 | f9ca0f1@gmail.com    |  982113  |  Chennai  |
+| 114 | ffbf1b1@gmail.com    |  985961  |  Chennai  |
+| 115 | b53d9cb@me.com       |  981693  |  Kolkatta |
+| 116 | c82c7aa@gmail.com    |  982795  |  Lucknow  |
+| 117 | c37934e@hotmail.com  |  981677  |  Delhi    |
+| 118 | 979063b@gmail.com    |  981378  |  Kolkatta |
+| 119 | 95dd4f0@gmail.com    |  981827  |  Mumbai   |
+| 120 | 254868a@yahoo.com    |  986668  |  Kolkatta |
+| 121 | b214d6f@hotmail.com  |  981100  |  Mumbai   |
+| 122 | 3f29b6e@gmail.com    |  98521   |  Chennai  |
+| 123 | eefd9fa@me.com       |  983551  |  Chennai  |
+| 124 | 0a9bca9@gmail.com    |  985878  |  Delhi    |
+| 125 | 3824078@gmail.com    |  983000  |  Kolkatta |
+| 126 | 0a09b8c@me.com       |  982979  |  Lucknow  |
+| 127 | d93e272@hotmail.com  |  984948  |  Delhi    |
+| 128 | a575faa@hotmail.com  |  982513  |  Delhi    |
+| 129 | 07f163e@yahoo.com    |  981670  |  Chennai  |
+| 130 | 32a1f08@gmail.com    |  981130  |  Chennai  |
+| 131 | a35d6cf@yahoo.com    |  981029  |  Lucknow  |
+| 132 | 042460b@yahoo.com    |  982233  |  Lucknow  |
+| 133 | 2214ad5@yahoo.com    |  986910  |  Chennai  |
+| 134 | 7c34635@yahoo.com    |  988027  |  Mumbai   |
+| 135 | b9e13d7@me.com       |  988110  |  Kolkatta |
+| 136 | f8911a3@yahoo.com    |  982115  |  Mumbai   |
+| 137 | bb08a3d@gmail.com    |  981048  |  Delhi    |
+| 138 | 651ab55@me.com       |  981913  |  Lucknow  |
+| 139 | 5434cad@hotmail.com  |  983269  |  Delhi    |
+| 140 | 5ab4b8a@me.com       |  982819  |  Kolkatta |
+| 141 | 333554d@me.com       |  982368  |  Lucknow  |
+| 142 | f1c2366@me.com       |  982504  |  Mumbai   |
+| 143 | f3226c9@hotmail.com  |  981254  |  Lucknow  |
+| 144 | 0f1a82e@yahoo.com    |  982730  |  Delhi    |
+| 145 | 31b0b18@me.com       |  988621  |  Delhi    |
+| 146 | bd47ac0@yahoo.com    |  983248  |  Mumbai   |
+| 147 | ede3111@yahoo.com    |  981204  |  Lucknow  |
+| 148 | 618accd@me.com       |  981987  |  Lucknow  |
+| 149 | 3c5b18e@hotmail.com  |  983921  |  Delhi    |
+| 150 | 2d6bd16@gmail.com    |  982122  |  Chennai  |
+| 151 | 8144038@me.com       |  981432  |  Kolkatta |
+| 152 | f2c3a10@hotmail.com  |  981328  |  Lucknow  |
+| 153 | 0279385@me.com       |  985887  |  Lucknow  |
+| 154 | e42bb89@me.com       |  982193  |  Delhi    |
+| 155 | e7675fb@me.com       |  983192  |  Mumbai   |
+| 156 | bb46c91@yahoo.com    |  981540  |  Mumbai   |
+| 157 | 55d157b@yahoo.com    |  981357  |  Delhi    |
+| 158 | 3b0db82@gmail.com    |  983013  |  Delhi    |
+| 159 | 4c1cef1@me.com       |  982074  |  Kolkatta |
+| 160 | 02b9449@yahoo.com    |  983186  |  Delhi    |
+| 161 | 2eacbcd@me.com       |  988325  |  Mumbai   |
+| 162 | 9c4567f@gmail.com    |  981848  |  Mumbai   |
+| 163 | 5e7bf7c@me.com       |  982339  |  Mumbai   |
+| 164 | 4c40cf0@gmail.com    |  983961  |  Lucknow  |
+| 165 | d9dd248@gmail.com    |  983155  |  Chennai  |
+| 166 | 18e4b46@gmail.com    |  981466  |  Kolkatta |
+| 167 | 0156d61@yahoo.com    |  981764  |  Delhi    |
+| 168 | e128f4b@hotmail.com  |  983238  |  Lucknow  |
+| 169 | b017266@gmail.com    |  98470   |  Chennai  |
+| 170 | 594f901@gmail.com    |  981525  |  Chennai  |
+| 171 | e1bb991@yahoo.com    |  982703  |  Mumbai   |
+| 172 | eae0543@gmail.com    |  982912  |  Lucknow  |
+| 173 | eef0958@gmail.com    |  981525  |  Mumbai   |
+| 174 | f7ada19@gmail.com    |  983090  |  Lucknow  |
+| 175 | 179e3ab@hotmail.com  |  982091  |  Lucknow  |
+| 176 | 636acd2@gmail.com    |  982459  |  Delhi    |
+| 177 | fc413aa@yahoo.com    |  981089  |  Chennai  |
+| 178 | 18cfc73@yahoo.com    |  98232   |  Delhi    |
+| 179 | 750c9ef@hotmail.com  |  982918  |  Mumbai   |
+| 180 | f646b44@yahoo.com    |  981616  |  Lucknow  |
+| 181 | b26fb06@gmail.com    |  983163  |  Mumbai   |
+| 182 | 4fff331@hotmail.com  |  983152  |  Chennai  |
+| 183 | 2be6cbe@yahoo.com    |  981519  |  Kolkatta |
+| 184 | 9108df0@me.com       |  981312  |  Lucknow  |
+| 185 | 6a78325@hotmail.com  |  981388  |  Chennai  |
+| 186 | b99ca56@gmail.com    |  982182  |  Mumbai   |
+| 187 | 2c0d307@yahoo.com    |  982743  |  Lucknow  |
+| 188 | ef8788a@gmail.com    |  981630  |  Kolkatta |
+| 189 | 70b76ca@yahoo.com    |  982786  |  Kolkatta |
+| 190 | ac39f5c@yahoo.com    |  982961  |  Mumbai   |
+| 191 | 4b831d6@me.com       |  981104  |  Mumbai   |
+| 192 | 416c1dd@gmail.com    |  983026  |  Delhi    |
+| 193 | fb7be5e@gmail.com    |  982777  |  Kolkatta |
+| 194 | 8109dd7@me.com       |  982501  |  Delhi    |
+| 195 | b4e3b90@me.com       |  983063  |  Delhi    |
+| 196 | 40f122c@yahoo.com    |  981011  |  Chennai  |
+| 197 | 8ba9a00@hotmail.com  |  982790  |  Kolkatta |
+| 198 | f661b02@hotmail.com  |  98344   |  Mumbai   |
+| 199 | 0aeceac@me.com       |  982048  |  Mumbai   |
+| 200 | fffc963@hotmail.com  |  984847  |  Delhi    |
++-----+----------------------+----------+-----------+
+200 rows in set (0.00 sec)
+
+
+*********************** Query 1 *******************************
+
+1. What all cities did people respond from?
+Solution -
+SELECT DISTINCT city
+FROM user_census;
+
++-----------+
+| city      |
++-----------+
+|  Lucknow  |
+|  Chennai  |
+|  Kolkatta |
+|  Delhi    |
+|  Mumbai   |
++-----------+
+
+
+*********************** Query 2 *******************************
+
+2 - How many people responded from each city?
+Solution-
+SELECT city, count(*) AS respondents
+FROM user_census
+GROUP BY city;
+
++-----------+-------------+
+| city      | respondents |
++-----------+-------------+
+|  Chennai  |          42 |
+|  Delhi    |          40 |
+|  Kolkatta |          38 |
+|  Lucknow  |          39 |
+|  Mumbai   |          41 |
++-----------+-------------+
+
+
+*********************** Query 3 *******************************
+
+3 - Which city were the maximum respondents from?
+Solution-
+SELECT city, count(*) AS maximum_respondents
+FROM user_census
+GROUP BY city
+ORDER BY maximum_respondents DESC
+LIMIT 1;
+
++----------+---------------------+
+| city     | maximum_respondents |
++----------+---------------------+
+|  Chennai |                  42 |
++----------+---------------------+
+
+
+*********************** Query 4 *******************************
+
+4 - What all email domains did people respond from ?
+Solution-
+SELECT DISTINCT SUBSTR(email, LOCATE('@',email) + 1) AS domain
+FROM user_census;
++--------------+
+| domain       |
++--------------+
+| hotmail.com  |
+| yahoo.com    |
+| me.com       |
+| gmail.com    |
++--------------+
+
+
+*********************** Query 5 *******************************
+
+5 - Which is the most popular email domain among the respondents ?
+Solution =
+SELECT DISTINCT SUBSTR(email, LOCATE('@',email) + 1) AS domain, COUNT(*) AS max_users
+FROM user_census
+GROUP BY domain
+ORDER BY max_users DESC
+LIMIT 1;
+
++------------+-----------+
+| domain     | max_users |
++------------+-----------+
+| yahoo.com  |        51 |
++------------+-----------+
+
+********************* Alternate query **********************
+
+SELECT DISTINCT SUBSTR(email, LOCATE('@',email) + 1) AS most_popular_domain, COUNT(*) AS no_of_users
+FROM user_census
+GROUP BY most_popular_domain
+HAVING COUNT(*) = (
+  SELECT max(users)
+  FROM (
+    SELECT DISTINCT SUBSTR(email, LOCATE('@',email) + 1) AS domain, count(*) AS users
+    FROM user_census
+    GROUP BY domain
+  ) AS max_users
+);
+
++---------------------+-------------+
+| most_popular_domain | no_of_users |
++---------------------+-------------+
+| me.com              |          51 |
+| yahoo.com           |          51 |
++---------------------+-------------+
