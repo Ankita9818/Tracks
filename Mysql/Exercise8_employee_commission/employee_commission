@@ -5,22 +5,25 @@ mysql> USE commissions;
 Database changed
 
 ************ Creating Tables *********************
-CREATE TABLE departments
-( id INT AUTO_INCREMENT PRIMARY KEY,
-  name VARCHAR(20) NOT NULL);
+CREATE TABLE departments (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(20) NOT NULL
+);
 
-CREATE TABLE employees
-( id INT AUTO_INCREMENT PRIMARY KEY,
+CREATE TABLE employees (
+  id INT AUTO_INCREMENT PRIMARY KEY,
   name VARCHAR(20) NOT NULL,
   salary INT NOT NULL,
   department_id INT NOT NULL,
-  FOREIGN KEY(department_id) REFERENCES departments(id));
+  FOREIGN KEY(department_id) REFERENCES departments(id)
+);
 
-CREATE TABLE commissions
-( id INT AUTO_INCREMENT PRIMARY KEY,
+CREATE TABLE commissions (
+  id INT AUTO_INCREMENT PRIMARY KEY,
   employee_id INT NOT NULL,
   commission INT ,
-  FOREIGN KEY(employee_id) REFERENCES employees(id));
+  FOREIGN KEY(employee_id) REFERENCES employees(id)
+);
 
 
 ************ Inserting rows *********************
@@ -81,6 +84,47 @@ HAVING total_commission >= ALL(
 | Chris Gayle |             9000 |
 +-------------+------------------+
 
+***************** Third Way *********************
+
+SELECT employees.name AS name, SUM(commission) AS highest_commission
+FROM employees, commissions
+WHERE commissions.employee_id = employees.id
+GROUP BY employees.id
+HAVING highest_commission = (
+  SELECT max(total_commission)
+  FROM (
+    SELECT SUM(commission) AS total_commission
+    FROM commissions
+    GROUP BY employee_id
+  ) AS max_commission
+);
+
++-------------+------------------+
+| name        | total_commission |
++-------------+------------------+
+| Chris Gayle |             9000 |
++-------------+------------------+
+
+******************** Fourth WAY ********************
+
+SELECT employees.name, SUM(commission) AS total_commission
+FROM employees, commissions
+WHERE commissions.employee_id = employees.id
+GROUP BY employees.id
+HAVING total_commission = (
+  SELECT SUM(commission) AS total_commission
+  FROM commissions
+  GROUP BY employee_id
+  ORDER BY total_commission DESC LIMIT 1
+);
+
++-------------+------------------+
+| name        | total_commission |
++-------------+------------------+
+| Chris Gayle |             9000 |
++-------------+------------------+
+
+
 ************ Query 2 *********************
 ii. Find employee with 4th Highest salary from employee table.
 SELECT employees.name, salary
@@ -109,6 +153,20 @@ WHERE 4 = (
 | Rahul Dravid | 700000 |
 +--------------+--------+
 
+************* Third Way **********************
+SELECT name, salary
+FROM employees
+WHERE salary = (
+  SELECT salary
+  FROM employees
+  ORDER BY salary DESC LIMIT 3, 1
+)
++--------------+--------+
+| name         | salary |
++--------------+--------+
+| Rahul Dravid | 700000 |
++--------------+--------+
+
 ************ Query 3 *********************
 iii. Find department that is giving highest commission.
 
@@ -117,6 +175,7 @@ FROM commissions, employees, departments
 WHERE commissions.employee_id = employees.id AND employees.department_id = departments.id
 GROUP BY departments.id
 ORDER BY highest_commission DESC LIMIT 1;
+
 +---------+--------------------+
 | name    | highest_commission |
 +---------+--------------------+
@@ -142,6 +201,27 @@ HAVING total_commission >= ALL (
 +---------+------------------+
 | Banking |            13000 |
 +---------+------------------+
+
+******************** THIRD WAY ********************
+
+SELECT departments.name, SUM(commission) AS total_commission
+FROM employees, commissions, departments
+WHERE commissions.employee_id = employees.id AND employees.department_id = departments.id
+GROUP BY departments.id
+HAVING total_commission = (
+  SELECT SUM(commission) AS total_commission
+  FROM employees, commissions
+  WHERE commissions.employee_id = employees.id
+  GROUP BY department_id
+  ORDER BY total_commission DESC LIMIT 1
+);
++---------+------------------+
+| name    | total_commission |
++---------+------------------+
+| Banking |            13000 |
++---------+------------------+
+
+
 
 ************ Query 4 *********************
 iv. Find employees getting commission more than 3000
