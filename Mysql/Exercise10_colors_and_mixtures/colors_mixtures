@@ -101,17 +101,18 @@ AND parent.name = 'Red' AND mix_id = mix.id;
 ************************************ Ques 3 ***********************************
 3. Find the mixtures that have one common parent
 
-SELECT parent.name AS parent_name, GROUP_CONCAT(mix.name SEPARATOR ' & ') AS 'possible mixture'
+SELECT parent.name AS parent_name, GROUP_CONCAT(mix.name SEPARATOR ' & ') AS possible_mixture
 FROM colors AS parent, mixtures AS m, colors AS mix
 WHERE (parent.id = m.parent1_id OR parent.id = m.parent2_id) AND mix.id = mix_id
 GROUP BY parent_name
-ORDER BY COUNT(*) DESC;
+ORDER BY COUNT(*) DESC, possible_mixture;
+
 +-------------+-----------------------+
-| parent_name | possible mixture      |
+| parent_name | possible_mixture      |
 +-------------+-----------------------+
 | Red         | Yellow & White & Pink |
-| Blue        | Pink & Cyan           |
 | Green       | Cyan & Yellow         |
+| Blue        | Pink & Cyan           |
 | Yellow      | White                 |
 +-------------+-----------------------+
 
@@ -134,6 +135,18 @@ WHERE colors.id = mix_id AND mix_density > density;
 ************************************ Ques 5 ***********************************
 
 5. calculate the total amount of color 'Red'(in kgs) needed to make a 1kg mix each for its possible mixtures(yellow,pink..)
+
+SELECT ROUND(sum(parent1_perc / 100),1) AS amount
+FROM mixtures, colors
+WHERE parent1_id = colors.id AND colors.name = 'Red';
+
++--------+
+| amount |
++--------+
+|    1.6 |
++--------+
+
+********************** alternate query **********************
 SELECT sum(color_req) AS amount
 FROM (
   SELECT (parent1_perc / 100) AS color_req
@@ -151,6 +164,8 @@ FROM (
 | 1.6000 |
 +--------+
 
+**************** alternate query ************************
+
 SELECT ROUND(sum(color_req), 1) AS amount
 FROM (
   SELECT (parent1_perc / 100) AS color_req
@@ -161,6 +176,26 @@ FROM (
   FROM mixtures, colors
   WHERE parent2_id = colors.id AND colors.name = 'Red'
 )AS total_color_required;
+
++--------+
+| amount |
++--------+
+|    1.6 |
++--------+
+
+***************** alternate query ********************
+SELECT ROUND (
+  (
+    SELECT sum(parent1_perc / 100) AS color_req
+    FROM mixtures, colors
+    WHERE parent1_id = colors.id AND colors.name = 'Red'
+  )
+  +
+  (
+    SELECT sum(parent2_perc / 100) AS color_req
+    FROM mixtures, colors
+    WHERE parent2_id = colors.id AND colors.name = 'Red'
+  ),1 ) AS amount;
 
 +--------+
 | amount |
