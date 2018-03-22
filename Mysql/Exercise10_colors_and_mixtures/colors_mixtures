@@ -2,8 +2,8 @@ CREATE DATABASE color_pallette;
 
 USE color_pallette;
 
-CREATE TABLE colors
-( id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+CREATE TABLE colors (
+  id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
   name VARCHAR(30) NOT NULL,
   density DECIMAL(4,2) NOT NULL
 );
@@ -20,8 +20,8 @@ mysql> INSERT INTO colors(name, density)
     -> ('Cyan', 0.40),
     -> ('White', 0.28);
 
-CREATE TABLE mixtures
-( id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+CREATE TABLE mixtures (
+  id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
   parent1_id INT UNSIGNED NOT NULL,
   parent2_id INT UNSIGNED NOT NULL,
   mix_id INT UNSIGNED NOT NULL,
@@ -49,6 +49,19 @@ WHERE parent2.id = mixtures.parent2_id AND result_table.id = mixtures.mix_id AND
   SELECT id
   FROM colors
   WHERE name = 'Red');
+
++--------------+-----------------+
+| combine_with | resulting_color |
++--------------+-----------------+
+| Green        | Yellow          |
+| Blue         | Pink            |
+| Yellow       | White           |
++--------------+-----------------+
+
+*************** ALternate query **********************
+SELECT parent2.name AS combine_with, result_table.name AS resulting_color
+FROM colors AS parent2, mixtures, colors AS result_table, colors AS parent_red
+WHERE parent2.id = mixtures.parent2_id AND result_table.id = mixtures.mix_id AND mixtures.parent1_id = parent_red.id AND parent_red.name = 'Red';
 
 +--------------+-----------------+
 | combine_with | resulting_color |
@@ -136,4 +149,21 @@ FROM (
 | amount |
 +--------+
 | 1.6000 |
++--------+
+
+SELECT ROUND(sum(color_req), 1) AS amount
+FROM (
+  SELECT (parent1_perc / 100) AS color_req
+  FROM mixtures, colors
+  WHERE parent1_id = colors.id AND colors.name = 'Red'
+  UNION
+  SELECT (parent2_perc / 100) AS color_req
+  FROM mixtures, colors
+  WHERE parent2_id = colors.id AND colors.name = 'Red'
+)AS total_color_required;
+
++--------+
+| amount |
++--------+
+|    1.6 |
 +--------+
