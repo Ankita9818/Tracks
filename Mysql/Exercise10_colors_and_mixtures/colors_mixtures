@@ -146,6 +146,23 @@ WHERE parent1_id = colors.id AND colors.name = 'Red';
 |    1.6 |
 +--------+
 
+************************ With single query *********
+
+SELECT ROUND(SUM(If( parent1_id = colors.id, parent1_perc, 0) /100) +  SUM(If( parent2_id = colors.id, parent2_perc, 0) /100), 1) AS amount
+FROM mixtures, colors
+WHERE colors.name = 'Red';
+
+*** updated table to check query
+UPDATE mixtures
+SET parent2_id = 10
+WHERE id = 3;
+
++--------+
+| amount |
++--------+
+|    2.2 |
++--------+
+
 ********************** alternate query **********************
 SELECT sum(color_req) AS amount
 FROM (
@@ -202,3 +219,4 @@ SELECT ROUND (
 +--------+
 |    1.6 |
 +--------+
+
